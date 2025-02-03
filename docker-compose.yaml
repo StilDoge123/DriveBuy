@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    container_name: drivebuy-postgres
+    image: postgres:13.2
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: drivebuydb
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5454:5432"
