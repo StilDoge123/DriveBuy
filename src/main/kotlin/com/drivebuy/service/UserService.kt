@@ -1,6 +1,6 @@
 package com.drivebuy.service
 
-import com.drivebuy.persistance.UserRepository
+import com.drivebuy.repository.UserRepository
 import com.drivebuy.persistance.entity.UserEntity
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package com.drivebuy.persistance
+package com.drivebuy.repository
 
 import com.drivebuy.persistance.entity.CarModel
 import com.drivebuy.persistance.enums.CarBrand

@@ -1,6 +1,6 @@
 package com.drivebuy.service
 
-import com.drivebuy.persistance.AdRepository
+import com.drivebuy.repository.AdRepository
 import com.drivebuy.persistance.entity.CarAdEntity
 import org.springframework.stereotype.Service
 

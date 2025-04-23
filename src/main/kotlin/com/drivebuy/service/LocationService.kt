@@ -1,8 +1,8 @@
 package com.drivebuy.service
 
-import com.drivebuy.persistance.CityRepository
-import com.drivebuy.persistance.CountryRepository
-import com.drivebuy.persistance.RegionRepository
+import com.drivebuy.repository.CityRepository
+import com.drivebuy.repository.CountryRepository
+import com.drivebuy.repository.RegionRepository
 import com.drivebuy.persistance.entity.City
 import com.drivebuy.persistance.entity.Country
 import com.drivebuy.persistance.entity.Region

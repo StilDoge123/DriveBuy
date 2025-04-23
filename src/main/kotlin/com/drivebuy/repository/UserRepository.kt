@@ -1,4 +1,4 @@
-package com.drivebuy.persistance
+package com.drivebuy.repository
 
 import com.drivebuy.persistance.entity.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository

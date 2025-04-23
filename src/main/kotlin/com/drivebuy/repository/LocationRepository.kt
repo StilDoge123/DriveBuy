@@ -1,4 +1,4 @@
-package com.drivebuy.persistance
+package com.drivebuy.repository
 
 import com.drivebuy.persistance.entity.City
 import com.drivebuy.persistance.entity.Country
