@@ -1,9 +1,13 @@
 package com.drivebuy.repository
 
-import com.drivebuy.persistance.entity.CarModel
-import com.drivebuy.persistance.enums.CarBrand
+import com.drivebuy.persistance.entity.CarBrandEntity
+import com.drivebuy.persistance.entity.CarModelEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface CarBrandRepository : JpaRepository<CarBrand, Long>
+interface CarBrandRepository : JpaRepository<CarBrandEntity, Long> {
+    fun findByName(name: String): CarBrandEntity?
+}
 
-interface CarModelRepository : JpaRepository<CarModel, Long>
+interface CarModelRepository : JpaRepository<CarModelEntity, Long> {
+    fun findAllByBrandId(id: Long): List<CarModelEntity>
+}

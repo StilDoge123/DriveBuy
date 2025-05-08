@@ -31,13 +31,13 @@ fun main() {
     println("CSV files generated successfully!")
 }
 
-enum class CarBrand (val models: List<String>){
-    OTHER(listOf("Друго")),
-    ABARTH(listOf("124", "595")),
-    ACURA(listOf(
+enum class CarBrand (val brandName: String, val models: List<String>){
+    OTHER("Други", listOf("Други")),
+    ABARTH("Abarth", listOf("124", "595")),
+    ACURA("Acura", listOf(
         "ILX", "Integra", "Mdx", "NSX", "Rdx", "Rl", "Rsx", "Slx", "TLX", "Tl", "Tsx", "ZDX"
     )),
-    ALFA_ROMEO(listOf(
+    ALFA_ROMEO("Alfa Romeo", listOf(
         "145", "146", "147", "155", "156", "156 sportwagon", "159",
         "159 sportwagon", "164", "166", "33", "4C", "75", "76",
         "8C Competizione", "90", "Alfetta", "Berlina", "Brera",
@@ -45,28 +45,28 @@ enum class CarBrand (val models: List<String>){
         "Junior", "MiTo", "Spider", "Sprint", "Stelvio",
         "Sud", "Tonale"
     )),
-    ALPINA(listOf(
+    ALPINA("Alpina", listOf(
         "B10", "B11", "B12", "B3", "B4", "B5", "B6", "B7",
         "B8", "B9", "C1", "C2", "D3", "D4", "D5",
         "Roadster", "XD3"
     )),
-    ASTON_MARTIN(listOf(
+    ASTON_MARTIN("Aston Martin", listOf(
         "DBS", "DBX", "Db7", "Db9", "Rapide",
         "V12 Vantage", "V8 Vantage", "Vanquish", "Други"
     )),
-    AUDI(listOf(
+    AUDI("Audi", listOf(
         "A1", "A2", "A3", "A4 Allroad", "A4", "A5", "A6", "A6 Allroad",
         "A7", "A8", "Allroad", "Cabriolet", "Coupe", "E-Tron", "E-Tron GT",
         "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Quattro", "R8", "RSQ3",
         "RSQ8", "RS2", "RS3", "RS4", "RS5", "RS6", "RS7", "S1", "S2", "S3", "S4",
         "S5", "S6", "S7", "S8", "SQ5", "SQ7", "SQ8", "Tt"
     )),
-    BENTLEY(listOf(
+    BENTLEY("Bentley", listOf(
         "Arnage", "Azure", "Bentayga", "Continental",
         "Continental gt", "Flying Spur", "GT Convertible",
         "Mulsanne", "T-series"
     )),
-    BMW(listOf(
+    BMW("BMW", listOf(
         "1-Series", "114", "116", "118", "120", "123", "125", "128",
         "130", "135", "140", "1500", "1600", "1602", "1800", "1M",
         "2-Series", "2 Active Tourer", "2 Gran Coupe", "2 Gran Tourer",
@@ -85,21 +85,21 @@ enum class CarBrand (val models: List<String>){
         "XM", "Z1", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7",
         "i8", "iX", "iX1", "iX2", "iX3"
     )),
-    BUGATTI(listOf("Chiron", "Veyron")),
-    BUICK(listOf(
+    BUGATTI("Bugatti", listOf("Chiron", "Veyron")),
+    BUICK("Buick", listOf(
         "Century", "Electra", "Enclave", "Invicta", "Park avenue",
         "Regal", "Rendezvous", "Riviera", "Skylark", "Skyline"
     )),
-    BYD(listOf(
+    BYD("BYD", listOf(
         "Atto3", "HAN", "Seal", "Tang"
     )),
-    CADILLAC(listOf(
+    CADILLAC("Cadillac", listOf(
         "ATS", "Allante", "BLS", "Brougham", "CT6",
         "Cts", "DTS", "Deville", "Eldorado", "Escalade",
         "Fleetwood", "STS", "Seville", "Srx", "XT4",
         "XT5", "XT6", "XTS", "Xlr"
     )),
-    CHEVROLET(listOf(
+    CHEVROLET("Chevrolet", listOf(
         "Alero", "Astro", "Avalanche", "Aveo", "Beretta",
         "Blazer", "Bolt", "Camaro", "Caprice", "Captiva",
         "Cavalier", "Cobalt", "Colorado", "Corvette", "Cruze",
@@ -111,7 +111,7 @@ enum class CarBrand (val models: List<String>){
         "Tracker", "Trailblazer", "Transsport", "Traverse",
         "Trax", "Volt"
     )),
-    CHRYSLER(listOf(
+    CHRYSLER("Chrysler", listOf(
         "200", "300c", "300m", "Cherokee", "Crossfire",
         "Daytona", "Es", "Gr.voyager", "Grand cherokee",
         "Gts", "Interpid", "Lebaron", "Neon", "New yorker",
@@ -119,7 +119,7 @@ enum class CarBrand (val models: List<String>){
         "Stratus", "Town and Country", "Vision", "Voyager",
         "Wrangler"
     )),
-    CITROEN(listOf(
+    CITROEN("Citroën", listOf(
         "2cv", "Ami", "Ami Ami", "Ami Vibe", "Ax",
         "Axel", "Berlingo", "Bx", "C - Zero", "C-Crosser",
         "C-Elysee", "C1", "C15", "C2", "C3", "C3 Aircross",
@@ -133,38 +133,38 @@ enum class CarBrand (val models: List<String>){
         "Oltcit", "Saxo", "Spacetourer", "Visa", "Xantia",
         "Xm", "Xsara", "Xsara picasso", "Zx"
     )),
-    CUPRA(listOf(
+    CUPRA("Cupra", listOf(
         "Ateca", "Born", "Formentor", "Leon"
     )),
-    DACIA(listOf(
+    DACIA("Dacia", listOf(
         "1100", "1300", "1304", "1307", "1310", "1350", "Dokker", "Duster",
         "Jogger", "Liberta", "Lodgy", "Logan", "Nova", "Pickup", "Sandero",
-        "Solenza", "Spring"
+        "Solenza", "Spring", "Bigster"
     )),
-    DAEWOO(listOf(
+    DAEWOO("Daewoo", listOf(
         "Ace", "Chairman", "Cielo", "Espero", "Evanda", "Fso", "Kalos", "Korando",
         "Lacetti", "Lanos", "Leganza", "Magnus", "Matiz", "Musso", "Nexia", "Nubira",
         "Prince", "Racer", "Rezzo", "Super", "Tacuma", "Tico"
     )),
-    DAIHATSU(listOf(
+    DAIHATSU("Daihatsu", listOf(
         "Applause", "Charade", "Charmant", "Copen", "Cuore", "Feroza", "Gran move",
         "Hijet", "Materia", "Move", "Rocky", "Sharade", "Sirion", "Taft", "Terios",
         "Trevis", "Wildcat", "Yrv"
     )),
-    DODGE(listOf(
+    DODGE("Dodge", listOf(
         "Avenger", "Caliber", "Caravan", "Challenger", "Charger", "Coronet",
         "Dakota", "Dart", "Daytona", "Durango", "Interpid", "Journey",
         "Magnum", "Neon", "Nitro", "RAM 1500", "RAM 2500", "RAM 3500",
         "Ram", "Shadow", "Stealth", "Stratus", "Viper"
     )),
-    DONGFENG(listOf(
+    DONGFENG("Dongfeng", listOf(
         "580", "E3", "GLORY 500", "IX5", "M4-YACHT", "T5-EVO"
     )),
-    DS(listOf(
+    DS("DS", listOf(
         "DS 3", "DS 3 Crossback", "DS 4", "DS 4 Crossback", "DS 5",
         "DS 7", "DS 7 Crossback", "DS 9"
     )),
-    FERRARI(listOf(
+    FERRARI("Ferrari", listOf(
         "296GTB", "308", "348", "360 modena", "360 spider",
         "458 Italia", "488", "599", "812 GTS", "812 Superfast",
         "California", "Enzo", "F12berlinetta", "F430", "F456m",
@@ -172,7 +172,7 @@ enum class CarBrand (val models: List<String>){
         "GTC4Lusso", "LaFerrari", "Mondial 8", "Portofino",
         "Purosangue", "Roma", "SF 90", "Testarossa"
     )),
-    FIAT(listOf(
+    FIAT("Fiat", listOf(
         "1100", "124", "125", "126", "127", "128",
         "131", "132", "1400", "1500", "1800", "500",
         "500L", "500X", "600", "650", "750", "Albea",
@@ -185,7 +185,7 @@ enum class CarBrand (val models: List<String>){
         "Stilo", "Strada", "Tempra", "Tipo", "Topolino",
         "Ulysse", "Uno"
     )),
-    FORD(listOf(
+    FORD("Ford", listOf(
         "12m", "15m", "17m", "20m",
         "Aerostar", "B-Max", "Bronco",
         "C-max", "Capri", "Connect",
@@ -208,28 +208,28 @@ enum class CarBrand (val models: List<String>){
         "Taunus", "Taurus", "Thunderbird",
         "Windstar", "Zephyr"
     )),
-    GENESIS(listOf(
+    GENESIS("Genesis", listOf(
         "G70", "G80", "G90", "GV60", "GV70", "GV80"
     )),
-    GEELY(listOf(
+    GEELY("Geely", listOf(
         "Atlas", "Atlas Pro", "Coolray", "Tugella"
     )),
-    GMC(listOf(
+    GMC("GMC", listOf(
         "Acadia", "Canyon", "Envoy", "Jimmy", "Saturn",
         "Savana", "Sierra", "Sonoma", "Terrain",
         "Tracker", "Typhoon", "Yukon"
     )),
-    GREAT_WALL(listOf(
+    GREAT_WALL("Great Wall", listOf(
         "Haval H2", "Haval H6", "Hover Cuv", "Hover H5",
         "Hover H6", "ORA 03", "Poer", "Safe",
         "Steed 3", "Steed 5", "Steed 6", "Steed 7",
         "Voleex C10", "Voleex C20", "Voleex C30",
         "WEY 03", "WEY 05"
     )),
-    HAVAL(listOf(
+    HAVAL("Haval", listOf(
         "Dargo", "F7x", "H2", "H6", "Jolion"
     )),
-    HONDA(listOf(
+    HONDA("Honda", listOf(
         "Accord", "Cbr", "Cbx", "City", "Civic", "Civic ballade",
         "Concerto", "Cr-v", "Crosstour", "Crx", "Crz", "Electric",
         "Element", "Elysion", "Fit", "Fr-v", "Hr-v", "Insight",
@@ -237,10 +237,10 @@ enum class CarBrand (val models: List<String>){
         "Odyssey", "Passport", "Pilot", "Prelude", "Quintet",
         "Ridgeline", "S2000", "Shuttle", "Stream", "ZR-V", "e"
     )),
-    HUMMER(listOf(
-        "H1", "H2", "H3"
+    HUMMER("Hummer", listOf(
+        "H1", "H2", "H3", "EV"
     )),
-    HYUNDAI(listOf(
+    HYUNDAI("Hyundai", listOf(
         "Accent", "Atos", "Bayon", "Coupe", "Elantra", "Equus", "Excel",
         "Galloper", "Genesis", "Getz", "Grace", "Grandeur", "I10", "I20",
         "I30", "I40", "IX35", "IX55", "Ioniq", "Ioniq 5", "Ioniq 6", "Ix20",
@@ -249,24 +249,24 @@ enum class CarBrand (val models: List<String>){
         "Starex", "Staria", "Stelar", "Tb", "Terracan", "Trajet",
         "Tucson", "Veloster", "Venue", "Veracruz", "Xg"
     )),
-    INFINITI(listOf(
+    INFINITI("Infiniti", listOf(
         "Ex30", "Ex35", "Ex37", "Fx 30", "Fx 35", "Fx 37",
         "Fx 45", "Fx 50", "Fx45", "G", "G coupe", "G sedan",
         "G37", "I", "J", "M", "Q", "Q30", "Q40", "Q45",
         "Q50", "Q70", "QX30", "QX50", "QX56", "QX60",
         "QX70", "QX80", "Qx", "Qx4"
     )),
-    ISUZU(listOf(
+    ISUZU("Isuzu", listOf(
         "Amigo", "D-max", "Gemini", "Piazza", "Pickup",
         "Rodeo", "Tfs", "Trooper", "Vehi cross"
     )),
-    IVECO(listOf("Massive")),
-    INEOS_GRENADIES(listOf("Ineos Grenadier")),
-    JAC(listOf(
+    IVECO("Iveco", listOf("Massive")),
+    INEOS("Ineos", listOf("Grenadier")),
+    JAC("JAC", listOf(
         "E-S2", "E-S4", "J7", "JS3",
         "JS4", "JS7", "T8 PRO"
     )),
-    JAGUAR(listOf(
+    JAGUAR("Jaguar", listOf(
         "Daimler", "Daimler double six", "Daimler six",
         "E-pace", "F-PACE", "F-Type",
         "I-Pace", "S-type", "Sovereign",
@@ -275,12 +275,12 @@ enum class CarBrand (val models: List<String>){
         "Xjs", "Xjsc", "Xk8",
         "Xkr"
     )),
-    JEEP(listOf(
+    JEEP("Jeep", listOf(
         "Avenger", "Cherokee", "Commander",
         "Compass", "Grand Wagoneer", "Grand cherokee",
         "Patriot", "Renegade", "Wrangler"
     )),
-    KIA(listOf(
+    KIA("Kia", listOf(
         "Avella delta", "Cadenza", "Carens", "Carnival",
         "Ceed", "Cerato", "Clarus", "EV6", "EV9",
         "Forte", "Joecs", "Joyce", "K3", "K5",
@@ -293,7 +293,7 @@ enum class CarBrand (val models: List<String>){
         "Stonic", "Telluride", "Venga", "Visto",
         "X-Trek", "XCeed"
     )),
-    KOENIGSEGG(listOf(
+    KOENIGSEGG("Koenigsegg", listOf(
         "Koenigsegg CC Prototype", "Koenigsegg CC8S", "Koenigsegg CCR", "Koenigsegg CCX",
         "Koenigsegg CCGT", "Koenigsegg CCXR", "Koenigsegg CCX Edition", "Koenigsegg CCXR Edition",
         "Koenigsegg CCXR Special", "Koenigsegg CCXR Trevita", "Koenigsegg Agera",
@@ -302,7 +302,7 @@ enum class CarBrand (val models: List<String>){
         "Koenigsegg Jesko Absolut", "Koenigsegg Gemera", "Koenigsegg CC850"
     )
     ),
-    LADA(listOf(
+    LADA("Lada", listOf(
         "1200", "1300", "1500", "1600",
         "2101", "21011", "21012", "21013",
         "21015", "2102", "2103", "2104",
@@ -314,13 +314,13 @@ enum class CarBrand (val models: List<String>){
         "Oka", "Priora", "Samara", "Travel",
         "Urban", "Vesta", "XRAY"
     )),
-    LAMBORGHINI(listOf(
+    LAMBORGHINI("Lamborghini", listOf(
         "Aventador", "Countach", "Diablo",
         "Gallardo", "Huracan", "Murcielago",
         "Reventon", "Revuelto", "Urus",
         "Veneno"
     )),
-    LANCIA(listOf(
+    LANCIA("Lancia", listOf(
         "A112", "Ardea", "Aurelia",
         "Beta", "Dedra", "Delta",
         "Flaminia", "Flavia", "Fulvia",
@@ -330,13 +330,13 @@ enum class CarBrand (val models: List<String>){
         "Y", "Y10", "Ypsilon",
         "Zeta"
     )),
-    LAND_ROVER(listOf(
+    LAND_ROVER("Land Rover", listOf(
         "Defender", "Discovery", "Discovery Sport",
         "Evoque", "Freelander",
         "Range Rover Evoque", "Range Rover Sport",
         "Range Rover Velar", "Range rover"
     )),
-    LEXUS(listOf(
+    LEXUS("Lexus", listOf(
         "CT 200h", "ES-Series", "ES 300", "ES 330", "ES 350",
         "GS-Series", "GS 200t", "GS 250", "GS 300", "GS 350",
         "GS 430", "GS 450h", "GS 460", "GS F", "GX-Series",
@@ -354,43 +354,43 @@ enum class CarBrand (val models: List<String>){
         "SC 430", "TX 350", "UX-Series", "UX 200", "UX 250h",
         "UX 300e", "UX 300h"
     )),
-    LINCOLN(listOf(
+    LINCOLN("Lincoln", listOf(
         "Aviator", "Continental", "Ls", "MKC", "MKS",
         "MTK", "Mark", "Mark Lt", "Mkx", "Mkz",
         "Navigator", "Town car", "Zephyr"
     )),
-    LOTUS(listOf(
+    LOTUS("Lotus", listOf(
         "Elise", "Europe", "Evora", "Exige", "Eletre", "Emira"
     )),
-    LYNK_AND_CO(listOf(
+    LYNK_AND_CO("Lynk & Co", listOf(
         "01", "Linc & Co", "Link & Co"
     )),
-    MAHINDRA(listOf(
+    MAHINDRA("Mahindra", listOf(
         "Armada", "Bolero", "Cl", "Commander",
         "Goa", "KUV 100", "Marshall", "Quanto",
         "Scorpio", "XUV 500"
     )),
-    MASERATI(listOf(
+    MASERATI("Maserati", listOf(
         "3200 gt", "Biturbo", "Coupe gt", "Ghibli",
         "GranCabrio", "GranTurismo", "Gransport",
         "Grecale", "Levante", "MC20",
         "Quattroporte", "Spyder", "Zagato"
     )),
-    MAYBACH(listOf(
+    MAYBACH("Maybach", listOf(
         "57", "62", "650", "S 560", "S580"
     )),
-    MAZDA(listOf(
+    MAZDA("Mazda", listOf(
         "121", "2", "3", "323", "5", "6", "626", "929", "B2200",
         "B2500", "B2600", "BT-50", "CX-30", "CX-5", "CX-60",
         "CX-7", "CX-9", "Demio", "MX-30", "Mpv", "Mx-3",
         "Mx-5", "Mx-6", "Premacy", "Rx-7", "Rx-8", "Tribute",
         "Xedos", "СХ-3"
     )),
-    MCLAREN(listOf(
+    MCLAREN("McLaren", listOf(
         "540C Coupe", "570S Coupe", "650S", "675LT", "720 S",
         "F1", "GT", "MP4-12C", "P1"
     )),
-    MERCEDES_BENZ(listOf(
+    MERCEDES_BENZ("Mercedes Benz", listOf(
         "110", "111", "113", "114", "115", "116", "123", "124", "126", "126-260",
         "150", "170", "180", "190", "200", "220", "230", "240", "250", "260",
         "280", "290", "300", "320", "350", "380", "420", "450", "500", "560",
@@ -418,20 +418,20 @@ enum class CarBrand (val models: List<String>){
         "S 63 AMG", "S 65 AMG", "SLS AMG", "SL-class", "SL 300", "SL 320", "SL 350",
         "SL 500", "SL 55 AMG", "SL 63 AMG", "SL 65 AMG", "V-class", "V 220", "V 250"
     )),
-    MG(listOf(
+    MG("MG", listOf(
         "4", "5", "EHS",
         "GS Exclusive", "MG4", "Marvel R",
         "Mga", "Mgb", "Mgf",
         "Tf", "ZS EV", "Zr",
         "Zs", "Zt", "Zt-t"
     )),
-    Mini(listOf(
+    Mini("Mini", listOf(
         "Clubman", "Cooper", "Cooper cabrio",
         "Cooper s", "Cooper s cabrio", "Countryman",
         "Coupe", "D one", "John Cooper Works",
         "One", "One cabrio", "Paceman"
     )),
-    MITSUBISHI(listOf(
+    MITSUBISHI("Mitsubishi", listOf(
         "3000 gt", "ASX", "Attrage",
         "Carisma", "Colt", "Cordia",
         "Eclipse", "Eclipse Cross", "Galant",
@@ -443,8 +443,8 @@ enum class CarBrand (val models: List<String>){
         "Space star", "Space wagon", "Starion",
         "Tredia"
     )),
-    MORGAN(listOf("Auro8")),
-    MOSKVICH(listOf(
+    MORGAN("Morgan", listOf("Aero8")),
+    MOSKVICH("Moskvich", listOf(
         "1360", "1361", "1500",
         "2136", "2138", "2140",
         "2141", "21412", "21417",
@@ -453,7 +453,7 @@ enum class CarBrand (val models: List<String>){
         "412", "426", "427",
         "503", "Aleko", "Иж"
     )),
-    NISSAN(listOf(
+    NISSAN("Nissan", listOf(
         "100 nx", "200 sx", "240 z",
         "280 z", "300 zx", "350z",
         "370Z", "Acura", "Almera",
@@ -474,7 +474,7 @@ enum class CarBrand (val models: List<String>){
         "Versa", "X-trail", "Xterra",
         "e-NV200"
     )),
-    OPEL(listOf(
+    OPEL("Opel", listOf(
         "Adam", "Admiral", "Agila",
         "Ampera", "Antara", "Ascona",
         "Astra", "Calibra", "Campo",
@@ -489,12 +489,12 @@ enum class CarBrand (val models: List<String>){
         "Speedster", "Tigra", "Vectra",
         "Zafira"
     )),
-    PAGANI(listOf(
+    PAGANI("Pagani", listOf(
         "Zonda", "Zonda S", "Zonda Roadster", "Zonda F", "Zonda F Roadster",
         "Zonda Cinque Roadster", "Zonda Cinque", "Huayra", "Huayra Roadster",
         "Imola", "Utopia"
     )),
-    PEUGEOT(listOf(
+    PEUGEOT("Pagani", listOf(
         "1007", "104", "106",
         "107", "108", "2008",
         "202", "204", "205",
@@ -512,7 +512,7 @@ enum class CarBrand (val models: List<String>){
         "Range", "Rifter", "Traveler",
         "iOn"
     )),
-    PONTIAC(listOf(
+    PONTIAC("Pontiac", listOf(
         "Aztec", "Bonneville", "Fiero",
         "Firebird", "G6", "Grand am",
         "Grand prix", "Gto", "Lemans",
@@ -520,26 +520,25 @@ enum class CarBrand (val models: List<String>){
         "Tempest", "Torrent", "Trans am",
         "Trans sport", "Vibe"
     )),
-    PLYMOUTH(listOf(
+    PLYMOUTH("Plymoth", listOf(
         "Acclaim", "Barracuda", "Breeze",
         "Colt", "Grand voyager", "Horizon",
         "Laser", "Neon", "Prowler",
         "Reliant", "Road runner", "Sundance",
         "Volare", "Voyager"
     )),
-    PORSCHE(listOf(
+    PORSCHE("Porsche", listOf(
         "356 Speedster", "911", "918 Spyder",
         "924", "928", "935",
         "944", "956", "968",
-        "991", "993", "996",
         "Boxster", "Cayenne",
         "Cayman", "Macan", "Panamera",
         "Taycan"
     )),
-    RAM(listOf(
+    RAM("RAM", listOf(
         "1500", "2500", "3500"
     )),
-    RENAULT(listOf(
+    RENAULT("Renault", listOf(
         "10", "11", "12", "14",
         "16", "18", "19", "20",
         "21", "25", "29", "30",
@@ -558,15 +557,15 @@ enum class CarBrand (val models: List<String>){
         "Talisman", "Twingo", "Twizy",
         "Vel satis", "Wind", "Zoe"
     )),
-    RIMAC(listOf("Nevera")),
-    RIVIAN(listOf("R1S", "R1T")),
-    ROLLS_ROYCE(listOf(
+    RIMAC("Rimac", listOf("Nevera")),
+    RIVIAN("Rivian", listOf("R1S", "R1T", "R2", "R3")),
+    ROLLS_ROYCE("Rolls-Royce", listOf(
         "Cullinan", "Dawn", "Ghost",
         "Phantom", "Rieju", "Silver Cloud",
         "Silver Seraph", "Silver Spur",
         "Speter", "Wraith"
     )),
-    ROVER(listOf(
+    ROVER("Rover", listOf(
         "111", "114", "200", "213",
         "214", "216", "220", "25",
         "400", "414", "416", "418",
@@ -576,11 +575,11 @@ enum class CarBrand (val models: List<String>){
         "Estate", "Maestro", "Metro",
         "Mini", "Montego", "Streetwise"
     )),
-    SAAB(listOf(
+    SAAB("Saab", listOf(
         "9-3", "9-4X", "9-5",
         "9-7x", "900", "9000"
     )),
-    SEAT(listOf(
+    SEAT("Seat", listOf(
         "Alhambra", "Altea", "Arona",
         "Arosa", "Ateca", "Cordoba",
         "Cupra", "Exeo", "Fura",
@@ -589,7 +588,7 @@ enum class CarBrand (val models: List<String>){
         "Ronda", "Tarraco", "Terra",
         "Toledo", "Vario"
     )),
-    SKODA(listOf(
+    SKODA("Skoda",listOf(
         "100", "1000", "105",
         "120", "125", "130",
         "135", "136", "Citigo",
@@ -599,16 +598,16 @@ enum class CarBrand (val models: List<String>){
         "Praktik", "Rapid", "Roomster",
         "Scala", "Superb", "Yeti"
     )),
-    SMART(listOf(
+    SMART("Smart", listOf(
         "Forfour", "Fortwo", "Mc",
         "Roadster", "Smart #1", "Smart #3"
     )),
-    SSANGYONG(listOf(
+    SSANGYONG("Ssangyong", listOf(
         "Actyon", "Actyon Sports", "Korando",
         "Korando Sports", "Kyron", "Musso",
         "Rexton", "Tivoli", "Torres", "XLV"
     )),
-    SUBARU(listOf(
+    SUBARU("Subaru", listOf(
         "1800", "Ascent", "B10 Tribeka", "B9 tribeca",
         "BRZ", "Baja", "E12", "Forester",
         "G3x justy", "Impreza", "Justy", "Legacy",
@@ -616,7 +615,7 @@ enum class CarBrand (val models: List<String>){
         "Solterra", "Svx", "Trezia", "Vivio",
         "XT", "XV"
     )),
-    SUZUKI(listOf(
+    SUZUKI("Suzuki", listOf(
         "Across", "Alto", "Baleno",
         "Celerio", "Forenza", "Grand Vitara",
         "Ignis", "Jimny", "Kizashi",
@@ -627,18 +626,17 @@ enum class CarBrand (val models: List<String>){
         "Swift", "Vitara", "Wagon R",
         "X-90", "XL-7"
     )),
-    TATA(listOf(
+    TATA("Tata", listOf(
         "Aria", "Estate", "Indica",
         "Mint", "Nano", "Safari",
         "Sierra", "Sumo", "Telcoline",
         "Xenon"
     )),
-    TESLA(listOf(
+    TESLA("Tesla", listOf(
         "Cybertruck", "Model 3", "Model S",
-        "Model X", "Model Y", "Roadster",
-        "Roadster Sport"
+        "Model X", "Model Y", "Roadster"
     )),
-    TOYOTA(listOf(
+    TOYOTA("Toyota", listOf(
         "4runner", "Alphard", "Auris",
         "Avalon", "Avensis", "Avensis verso",
         "Aygo", "C-HR", "Camry",
@@ -658,11 +656,11 @@ enum class CarBrand (val models: List<String>){
         "Yaris", "Yaris Cross", "Yaris verso",
         "bZ4X"
     )),
-    TRABANT(listOf(
+    TRABANT("Trabant", listOf(
         "600", "601", "Combi",
         "T 1.1"
     )),
-    VW(listOf(
+    VOLKSWAGEN("Volkswagen", listOf(
         "1200", "1300", "1302",
         "1303", "1500", "1600",
         "Alltrack", "Amarok", "Arteon",
@@ -681,7 +679,7 @@ enum class CarBrand (val models: List<String>){
         "Tiguan", "Touareg", "Touran",
         "Up", "Vento"
     )),
-    VOLVO(listOf(
+    VOLVO("Volvo", listOf(
         "142", "144", "145",
         "164", "1800 es", "240",
         "244", "245", "262 c",
@@ -700,15 +698,15 @@ enum class CarBrand (val models: List<String>){
         "V90", "V90 Cross Country", "XC40",
         "XC60", "Xc70", "Xc90"
     )),
-    VOLGA(listOf(
+    VOLGA("Volga", listOf(
         "22", "24", "3102",
         "3110", "3111", "M 20",
         "M 21", "Siber", "VS"
     )),
-    WEY(listOf(
+    WEY("Wey", listOf(
         "03", "05", "Coffee 01"
     )),
-    ZENVO(listOf(
+    ZENVO("Zenvo", listOf(
         "ST1", "TS1", "TS1 GT", "TSR", "TSR-S", "TSR-GT", "Aurora"
     ))
 }
