@@ -18,12 +18,12 @@ class CarBrandInitializer(
     @Transactional
     fun init() {
         CarBrand.entries.forEach { carBrand ->
-            var brand = brandRepository.findByName(carBrand.brandName)
-                ?: brandRepository.save(CarBrandEntity(name = carBrand.name))
+            var brand = brandRepository.findByBrandName(carBrand.brandName)
+                ?: brandRepository.save(CarBrandEntity(brandName = carBrand.brandName))
 
             // Update brand name if changed in the enum
-            if (brand.name != carBrand.brandName) {
-                brand = brand.copy(name = carBrand.brandName)
+            if (brand.brandName != carBrand.brandName) {
+                brand = brand.copy(brandName = carBrand.brandName)
                 brandRepository.save(brand)
             }
 

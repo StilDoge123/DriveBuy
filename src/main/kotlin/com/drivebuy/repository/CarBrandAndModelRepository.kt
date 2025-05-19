@@ -5,7 +5,7 @@ import com.drivebuy.persistance.entity.CarModelEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CarBrandRepository : JpaRepository<CarBrandEntity, Long> {
-    fun findByName(name: String): CarBrandEntity?
+    fun findByBrandName(brandName: String): CarBrandEntity?
 }
 
 interface CarModelRepository : JpaRepository<CarModelEntity, Long> {

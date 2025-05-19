@@ -27,7 +27,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.liquibase:liquibase-core")
+	//implementation("org.liquibase:liquibase-core")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.google.firebase:firebase-admin:9.4.3")
 
@@ -53,4 +53,10 @@ allOpen {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks {
+	processResources {
+		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	}
 }

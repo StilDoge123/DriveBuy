@@ -1,36 +1,5 @@
 package com.drivebuy.persistance.enums
 
-import java.io.File
-
-fun generateBrandsCsv() {
-    File("src/main/resources/csv/brands.csv").bufferedWriter().use { writer ->
-        writer.write("id,name\n")
-        CarBrand.entries.forEachIndexed { index, brand ->
-            writer.write("${index + 1},${brand.name}\n")
-        }
-    }
-}
-
-fun generateModelsCsv() {
-    File("src/main/resources/csv/models.csv").bufferedWriter().use { writer ->
-        writer.write("brand_id,model_name\n")
-        CarBrand.entries.forEachIndexed { index, brand ->
-            val brandId = index + 1
-            brand.models.forEach { model ->
-                writer.write("$brandId,$model\n")
-            }
-        }
-    }
-}
-
-fun main() {
-    File("src/main/resources/csv").mkdirs()
-
-    generateBrandsCsv()
-    generateModelsCsv()
-    println("CSV files generated successfully!")
-}
-
 enum class CarBrand (val brandName: String, val models: List<String>){
     OTHER("Други", listOf("Други")),
     ABARTH("Abarth", listOf("124", "595")),

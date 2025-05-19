@@ -21,8 +21,6 @@ data class CarAd(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     val userId: String,
 
     @Column(nullable = false)
@@ -59,8 +57,6 @@ data class CarAd(
 
     val phone: String,
 
-    @OneToOne
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
     val location: String,
 
     @ManyToMany
