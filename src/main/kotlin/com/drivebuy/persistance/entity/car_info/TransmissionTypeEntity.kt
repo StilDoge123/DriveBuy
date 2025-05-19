@@ -8,5 +8,5 @@ class TransmissionTypeEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val type: String
+    val transmissionTypeName: String
 )

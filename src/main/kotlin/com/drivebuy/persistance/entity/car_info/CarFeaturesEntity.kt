@@ -8,5 +8,5 @@ data class CarFeaturesEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val feature: String
+    val featureName: String
 )

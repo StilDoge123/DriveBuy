@@ -8,5 +8,5 @@ class DriveTypeEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val types: String
+    val driveTypeName: String
 )

@@ -8,5 +8,5 @@ data class CarConditionEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val condition: String
+    val conditionName: String
 )
