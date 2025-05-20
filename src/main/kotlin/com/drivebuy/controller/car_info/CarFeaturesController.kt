@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/carFeatures")
 class CarFeaturesController (private val carFeaturesService: CarFeaturesService) {
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getCarFeatureById(@PathVariable id: Long): CarFeaturesEntity? {
         return carFeaturesService.getCarFeatureById(id)
     }
 
-    @GetMapping("/{carFeatureName}")
+    @GetMapping("/carFeature/{carFeatureName}")
     fun getCarFeatureByFeatureName(@PathVariable carFeatureName: String): CarFeaturesEntity? {
         return carFeaturesService.getCarConditionByConditionName(carFeatureName)
     }

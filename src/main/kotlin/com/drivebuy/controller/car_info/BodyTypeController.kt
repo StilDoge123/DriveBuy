@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/bodyTypes")
 class BodyTypeController(private val bodyTypeService: BodyTypeService) {
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getBodyTypeById(@PathVariable id: Long): BodyTypeEntity? {
         return bodyTypeService.getBodyTypeById(id)
     }
 
-    @GetMapping("/{bodyTypeName}")
+    @GetMapping("/bodyType/{bodyTypeName}")
     fun getBodyTypeByTypeName(@PathVariable bodyTypeName: String): BodyTypeEntity? {
         return bodyTypeService.getBodyTypeByBodyTypeName(bodyTypeName)
     }

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/driveTypes")
 class DriveTypeController(private val driveTypeService: DriveTypeService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getDriveTypeById(@PathVariable id: Long): DriveTypeEntity? {
         return driveTypeService.getDriveTypeById(id)
     }
 
-    @GetMapping("/{driveTypeName}")
+    @GetMapping("/driveType/{driveTypeName}")
     fun getDriveTypeByTypeName(@PathVariable driveTypeName: String): DriveTypeEntity? {
         return driveTypeService.getDriveTypeByTypeName(driveTypeName)
     }

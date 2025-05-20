@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/doorCounts")
 class DoorCountController(private val doorCountService: DoorCountService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getDoorCountById(@PathVariable id: Long): DoorCountEntity? {
         return doorCountService.getDoorCountById(id)
     }
 
-    @GetMapping("/{doorCount}")
+    @GetMapping("/doorCount/{doorCount}")
     fun getDoorCountByCount(@PathVariable doorCount: String): DoorCountEntity? {
         return doorCountService.getDoorCountByCount(doorCount)
     }

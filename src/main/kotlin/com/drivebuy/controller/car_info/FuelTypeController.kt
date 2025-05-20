@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/fuelTypes")
 class FuelTypeController(private val fuelTypeService: FuelTypeService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getFuelTypeById(@PathVariable id: Long): FuelTypeEntity? {
         return fuelTypeService.getFuelTypeById(id)
     }
 
-    @GetMapping("/{fuelTypeName}")
+    @GetMapping("/fuelType/{fuelTypeName}")
     fun getFuelTypeByTypeName(@PathVariable fuelTypeName: String): FuelTypeEntity? {
         return fuelTypeService.getFuelTypeByTypeName(fuelTypeName)
     }

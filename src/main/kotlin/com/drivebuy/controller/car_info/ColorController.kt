@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/colors")
 class ColorController(private val colorService: ColorService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getColorById(@PathVariable id: Long): ColorEntity? {
         return colorService.getColorById(id)
     }
 
-    @GetMapping("/{colorName}")
+    @GetMapping("/colorName/{colorName}")
     fun getColorByName(@PathVariable colorName: String): ColorEntity? {
         return colorService.getColorByName(colorName)
     }

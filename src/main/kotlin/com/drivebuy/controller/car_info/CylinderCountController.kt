@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/cylinderCounts")
 class CylinderCountController(private val cylinderCountService: CylinderCountService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getCylinderCountById(@PathVariable id: Long): CylinderCountEntity? {
         return cylinderCountService.getCylinderCountById(id)
     }
 
-    @GetMapping("/{cylinderCount}")
+    @GetMapping("/cylinderCount/{cylinderCount}")
     fun getCylinderCountByCount(@PathVariable cylinderCount: String): CylinderCountEntity? {
         return cylinderCountService.getCylinderCountByCount(cylinderCount)
     }

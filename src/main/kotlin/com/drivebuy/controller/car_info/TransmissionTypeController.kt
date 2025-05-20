@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/transmissionTypes")
 class TransmissionTypeController(private val transmissionTypeService: TransmissionTypeService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getTransmissionTypeById(@PathVariable id: Long): TransmissionTypeEntity? {
         return transmissionTypeService.getTransmissionTypeById(id)
     }
 
-    @GetMapping("/{transmissionTypeName}")
+    @GetMapping("/transmissionType/{transmissionTypeName}")
     fun getTransmissionTypeByTypeName(@PathVariable transmissionTypeName: String): TransmissionTypeEntity? {
         return transmissionTypeService.getTransmissionTypeByTypeName(transmissionTypeName)
     }

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/steeringPositions")
 class SteeringPositionTypes(private val steeringPositionService: SteeringPositionService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     fun getSteeringPositionById(@PathVariable id: Long): SteeringPositionEntity? {
         return steeringPositionService.getSteeringPositionById(id)
     }
 
-    @GetMapping("/{steeringPositionName}")
+    @GetMapping("/steeringPosition/{steeringPositionName}")
     fun getSteeringPositionByPositionName(@PathVariable steeringPositionName: String): SteeringPositionEntity? {
         return steeringPositionService.getSteeringPositionByPositionName(steeringPositionName)
     }

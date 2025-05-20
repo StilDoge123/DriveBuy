@@ -1,6 +1,6 @@
 package com.drivebuy.persistance.enums
 
-enum class CarFeaturesEnum(val type: String) {
+enum class CarFeaturesEnum(val featureName: String) {
     AIR_CONDITIONER("Климатик"), CLIMATE_CONTROL("Климатроник"), TINTED_WINDOWS("Затъмнени стъкла"),
     ELECTRIC_WINDOWS("Ел. стъкла"), ELECTRIC_MIRRORS("Ел. огледала"), ELECTRIC_SEATS("Ел. седалки"),
     HEATED_SEATS("Подгрев на седалки"), VENTILATED_SEATS("Вентилирани седалки"),

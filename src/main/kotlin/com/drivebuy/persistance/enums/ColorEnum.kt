@@ -1,6 +1,6 @@
 package com.drivebuy.persistance.enums
 
-enum class ColorEnum(val type: String) {
+enum class ColorEnum(val colorName: String) {
     RED("Червен"), BLUE("Син"), GREEN("Зелен"),
     YELLOW("Жълт"), BLACK("Черен"), WHITE("Бял"),
     GRAY("Сив"), SILVER("Сребрист"), GOLD("Златист"),
