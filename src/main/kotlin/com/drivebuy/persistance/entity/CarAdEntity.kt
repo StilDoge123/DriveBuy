@@ -1,5 +1,6 @@
 package com.drivebuy.persistance.entity
 
+import com.drivebuy.persistance.entity.car_info.CarFeaturesEntity
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Max
@@ -8,64 +9,63 @@ import jakarta.validation.constraints.Positive
 @Entity
 @Table(name = "ads")
 data class CarAdEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
-
-    @Column(name = "user_id")
-    val userId: String
-)
-
-@Entity
-data class CarAd(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
     val userId: String,
 
     @Column(nullable = false)
-    val make: String,
+    var make: String,
 
     @Column(nullable = false)
-    val model: String,
+    var model: String,
+
+    var title: String,
+
+    var description: String,
 
     @field:Min(1900)
     @field:Max(value = Int.MAX_VALUE.toLong())
-    val year: Int,
+    var year: Int,
 
-    val color: String,
+    var color: String,
 
     @field:Min(1)
     @field:Max(10000)
-    val hp: Int,
+    var hp: Int,
 
     @field:Min(1)
     @field:Max(100000)
-    val displacement: Int,
+    var displacement: Int,
 
     @field:Min(1)
-    val mileage: Int,
+    var mileage: Int,
 
     @field:Min(1)
-    val price:Int,
+    var price:Int,
 
     @field:Positive
-    val doorCount: Int,
+    var doorCount: Int,
 
     @field:Min(0)
-    val ownerCount: Int,
+    var ownerCount: Int,
 
-    val phone: String,
+    var phone: String,
 
-    val location: String,
+    var location: String,
 
-    @ManyToMany
+    @ElementCollection
+    @CollectionTable(name = "ad_images", joinColumns = [JoinColumn(name = "ad_id")])
+    @Column(name = "image_url")
+    val imageUrls: MutableList<String> = mutableListOf(),
+
+    @ManyToMany(targetEntity = CarFeaturesEntity::class)
     @JoinTable(
         name = "car_ad_features",
         joinColumns = [JoinColumn(name = "car_ad_id")],
         inverseJoinColumns = [JoinColumn(name = "car_feature_id")]
     )
-    val features: List<CarAdFeature> = mutableListOf()
+    var features: MutableList<CarFeaturesEntity> = mutableListOf()
 ) {
     init {
         val currentYear = java.time.Year.now().value

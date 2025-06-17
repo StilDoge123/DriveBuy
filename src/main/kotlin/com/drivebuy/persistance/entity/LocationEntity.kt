@@ -5,24 +5,28 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "countries")
 data class Country(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
     val name: String
 )
 
 @Entity
 @Table(name = "regions")
 data class Region(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false) val country: Country,
-    val name: String
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+
+    @Column(name = "region_name", nullable = false)
+    val regionName: String
 )
 
 @Entity
 @Table(name = "cities")
 data class City(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
     @ManyToOne
-    @JoinColumn(name = "region_id", nullable = false) val region: Region,
-    val name: String
+    @JoinColumn(name = "region_id", nullable = false)
+    val region: Region,
+    val cityName: String
 )

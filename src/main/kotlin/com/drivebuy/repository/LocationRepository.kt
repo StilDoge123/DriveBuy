@@ -13,10 +13,13 @@ interface CountryRepository : JpaRepository<Country, Long> {
 
 @Repository
 interface RegionRepository : JpaRepository<Region, Long> {
-    fun findByNameContainingIgnoreCase(name: String): List<Region>
+    fun findByRegionNameContainingIgnoreCase(regionName: String): List<Region>
+    fun findByRegionName(regionName: String): Region?
 }
 
 @Repository
 interface CityRepository : JpaRepository<City, Long> {
-    fun findByNameContainingIgnoreCase(name: String): List<City>
+    fun findByCityNameContainingIgnoreCase(cityName: String): List<City>
+    fun findAllByRegionId(regionId: Long): List<City>
+    fun deleteAllByRegionId(regionId: Long)
 }

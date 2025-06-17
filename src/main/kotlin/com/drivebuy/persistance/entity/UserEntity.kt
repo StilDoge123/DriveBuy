@@ -10,9 +10,10 @@ data class UserEntity(
     val name: String,
     val email: String,
     val phone: String,
-
-    @ElementCollection
-    @CollectionTable(name = "user_ads", joinColumns = [JoinColumn(name = "user_id")])
-    @Column(name = "ad_id")
-    val adIds: List<Long> = mutableListOf()
+    @ManyToMany
+    @JoinTable(
+    name = "user_saved_ads",
+    joinColumns = [JoinColumn(name = "user_id")],
+    inverseJoinColumns = [JoinColumn(name = "ad_id")])
+    val savedAds: MutableList<CarAdEntity> = mutableListOf()
 )

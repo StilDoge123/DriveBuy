@@ -15,11 +15,11 @@ class LocationService(
     private val countryRepository: CountryRepository
 ) {
     fun searchCities(query: String): List<City> {
-        return cityRepository.findByNameContainingIgnoreCase(query)
+        return cityRepository.findByCityNameContainingIgnoreCase(query)
     }
 
     fun searchRegions(query: String): List<Region> {
-        return regionRepository.findByNameContainingIgnoreCase(query)
+        return regionRepository.findByRegionNameContainingIgnoreCase(query)
     }
 
     fun searchCountries(query: String): List<Country> {
