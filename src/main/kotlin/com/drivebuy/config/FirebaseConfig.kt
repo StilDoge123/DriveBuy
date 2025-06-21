@@ -18,6 +18,8 @@ class FirebaseConfig {
     fun firebaseApp(): FirebaseApp {
         // This is the environment variable you will set on Render.
         val serviceAccountJson = System.getenv("FIREBASE_SERVICE_ACCOUNT_KEY_JSON")
+        val storageBucket = System.getenv("FIREBASE_STORAGE_BUCKET")
+            ?: throw RuntimeException("FIREBASE_STORAGE_BUCKET environment variable is not set")
 
         val options: FirebaseOptions
         try {
@@ -27,7 +29,7 @@ class FirebaseConfig {
                 val credentials = GoogleCredentials.fromStream(ByteArrayInputStream(serviceAccountJson.toByteArray()))
                 options = FirebaseOptions.builder()
                     .setCredentials(credentials)
-                    .setStorageBucket("FIREBASE_STORAGE_BUCKET_URL") // <-- IMPORTANT: SET THIS
+                    .setStorageBucket(storageBucket)
                     .build()
             } else {
                 // --- FOR LOCAL DEVELOPMENT ---
@@ -37,7 +39,7 @@ class FirebaseConfig {
                 val serviceAccountStream = FileInputStream("src/main/resources/drivebuy-firebase-adminsdk.json") // <-- Or your local path
                 options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
-                    .setStorageBucket("FIREBASE_STORAGE_BUCKET_URL") // <-- IMPORTANT: SET THIS
+                    .setStorageBucket(storageBucket)
                     .build()
             }
         } catch (e: IOException) {

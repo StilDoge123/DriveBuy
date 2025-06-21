@@ -4,48 +4,18 @@ import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 import com.google.firebase.cloud.StorageClient
-import com.google.auth.oauth2.GoogleCredentials
-import com.google.firebase.FirebaseApp
-import com.google.firebase.FirebaseOptions
-import jakarta.annotation.PostConstruct
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.core.io.ClassPathResource
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.UUID
 
-
-@ConfigurationProperties(prefix = "firebase.storage")
-data class FirebaseStorageProperties(
-    val bucket: String
-)
-
-@ConfigurationProperties(prefix = "firebase")
-data class FirebaseProperties(
-    val serviceAccountPath: String,
-    val storage: FirebaseStorageProperties
-)
-
 @Service
-@EnableConfigurationProperties(FirebaseProperties::class)
-class FirebaseStorageService(
-    private val firebaseProperties: FirebaseProperties
-) {
-    @PostConstruct
-    fun initialize() {
-        val serviceAccount = ClassPathResource(firebaseProperties.serviceAccountPath).inputStream
-
-        val options = FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setStorageBucket(firebaseProperties.storage.bucket)
-            .build()
-
-        FirebaseApp.initializeApp(options)
-    }
+class FirebaseStorageService {
+    
+    private val bucketName: String = System.getenv("FIREBASE_STORAGE_BUCKET") 
+        ?: throw RuntimeException("FIREBASE_STORAGE_BUCKET environment variable is not set")
 
     fun uploadAdImage(file: MultipartFile): String {
-        val bucket = StorageClient.getInstance().bucket(firebaseProperties.storage.bucket)
+        val bucket = StorageClient.getInstance().bucket(bucketName)
         val filename = "ads/${UUID.randomUUID()}_${file.originalFilename}"
         val blob = bucket.create(filename, file.bytes, file.contentType)
 
@@ -54,13 +24,13 @@ class FirebaseStorageService(
 
     fun deleteImage(url: String) {
         val filename = url.substringAfter("o/").substringBefore("?alt=media")
-        StorageClient.getInstance().bucket(firebaseProperties.storage.bucket)
+        StorageClient.getInstance().bucket(bucketName)
             .get(URLDecoder.decode(filename, "UTF-8"))
             .delete()
     }
 
     private fun getPublicUrl(filename: String): String {
-        return "https://firebasestorage.googleapis.com/v0/b/${firebaseProperties.storage.bucket}/o/" +
+        return "https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/" +
                 URLEncoder.encode(filename, "UTF-8") + "?alt=media"
     }
 }
