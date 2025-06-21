@@ -27,4 +27,4 @@
         EXPOSE 8080
 
         # Command to run the application
-        ENTRYPOINT ["java", "-jar", "build/libs/DriveBuyBE-0.0.1-SNAPSHOT.jar"]
+        ENTRYPOINT ["java", "-jar", "build/libs/drivebuy-0.0.1-SNAPSHOT.jar"]
