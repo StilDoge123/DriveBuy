@@ -15,6 +15,6 @@ class CarBrandService(private val carBrandRepository: CarBrandRepository) {
     }
 
     fun getAllBrands(): List<CarBrandEntity?> {
-        return carBrandRepository.findAll()
+        return carBrandRepository.findAll().filterNotNull().sortedBy { it.brandName.lowercase() }
     }
 }

@@ -25,4 +25,12 @@ class LocationService(
     fun searchCountries(query: String): List<Country> {
         return countryRepository.findByNameContainingIgnoreCase(query)
     }
+
+    fun getAllRegions(): List<Region> {
+        return regionRepository.findAll()
+    }
+
+    fun getCitiesByRegionId(regionId: Long): List<City> {
+        return cityRepository.findAllByRegionId(regionId)
+    }
 }

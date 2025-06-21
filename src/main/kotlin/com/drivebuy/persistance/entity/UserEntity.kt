@@ -7,13 +7,13 @@ import jakarta.persistence.*
 data class UserEntity(
     @Id
     val firebaseId: String,
-    val name: String,
-    val email: String,
-    val phone: String,
+    var name: String,
+    var email: String,
+    var phone: String,
     @ManyToMany
     @JoinTable(
     name = "user_saved_ads",
     joinColumns = [JoinColumn(name = "user_id")],
     inverseJoinColumns = [JoinColumn(name = "ad_id")])
-    val savedAds: MutableList<CarAdEntity> = mutableListOf()
+    var savedAds: MutableList<CarAdEntity> = mutableListOf()
 )

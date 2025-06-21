@@ -36,6 +36,9 @@ data class CarAdFilters(
     // Features (exact match)
     val features: List<String>? = null,
 
+    // Conditions (exact match)
+    val conditions: List<String>? = null,
+
     // Image presence
     val hasImages: Boolean? = null
 )

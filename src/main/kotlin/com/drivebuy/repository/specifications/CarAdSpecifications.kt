@@ -1,6 +1,7 @@
 package com.drivebuy.repository.specifications
 
 import com.drivebuy.persistance.entity.CarAdEntity
+import com.drivebuy.persistance.entity.car_info.CarConditionEntity
 import com.drivebuy.persistance.entity.car_info.CarFeaturesEntity
 import org.springframework.data.jpa.domain.Specification
 
@@ -86,9 +87,17 @@ class CarAdSpecifications {
             doorCount?.let { cb.equal(root.get<Int>("doorCount"), it) } ?: cb.conjunction()
         }
 
-        // Contact info
+        // Location
         fun withLocation(location: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
             location?.let { cb.equal(root.get<String>("location"), it) } ?: cb.conjunction()
+        }
+
+        // Condition
+        fun withConditions(conditions: List<String>?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            conditions?.takeIf { it.isNotEmpty() }?.let {
+                val conditionsJoin = root.join<CarAdEntity, CarConditionEntity>("conditions")
+                conditionsJoin.get<String>("conditionName").`in`(it)
+            } ?: cb.conjunction()
         }
 
         // Feature

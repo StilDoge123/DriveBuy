@@ -173,7 +173,7 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "Mustang", "Orion", "Probe",
         "Puma", "Ranger", "Raptor",
         "Rs", "S-Max", "Scorpio",
-        "Sierra", "Sportka", "Streetka",
+        "Sierra", "SportKA", "StreetKA",
         "Taunus", "Taurus", "Thunderbird",
         "Windstar", "Zephyr"
     )),
@@ -263,12 +263,12 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "X-Trek", "XCeed"
     )),
     KOENIGSEGG("Koenigsegg", listOf(
-        "Koenigsegg CC Prototype", "Koenigsegg CC8S", "Koenigsegg CCR", "Koenigsegg CCX",
-        "Koenigsegg CCGT", "Koenigsegg CCXR", "Koenigsegg CCX Edition", "Koenigsegg CCXR Edition",
-        "Koenigsegg CCXR Special", "Koenigsegg CCXR Trevita", "Koenigsegg Agera",
-        "Koenigsegg Agera R", "Koenigsegg Agera S", "Koenigsegg One:1", "Koenigsegg Agera RS",
-        "Koenigsegg Agera Final Edition", "Koenigsegg Regera", "Koenigsegg Jesko",
-        "Koenigsegg Jesko Absolut", "Koenigsegg Gemera", "Koenigsegg CC850"
+        "CC Prototype", "CC8S", "CCR", "CCX",
+        "CCGT", "CCXR", "CCX Edition", "CCXR Edition",
+        "CCXR Special", "CCXR Trevita", "Agera",
+        "Agera R", "Agera S", "One:1", "Agera RS",
+        "Regera", "Jesko", "Jesko Absolut", "Koenigsegg Gemera",
+        "CC850"
     )
     ),
     LADA("Lada", listOf(
@@ -359,7 +359,7 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "540C Coupe", "570S Coupe", "650S", "675LT", "720 S",
         "F1", "GT", "MP4-12C", "P1"
     )),
-    MERCEDES_BENZ("Mercedes Benz", listOf(
+    MERCEDES_BENZ("Mercedes-Benz", listOf(
         "110", "111", "113", "114", "115", "116", "123", "124", "126", "126-260",
         "150", "170", "180", "190", "200", "220", "230", "240", "250", "260",
         "280", "290", "300", "320", "350", "380", "420", "450", "500", "560",
@@ -463,7 +463,7 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "Zonda Cinque Roadster", "Zonda Cinque", "Huayra", "Huayra Roadster",
         "Imola", "Utopia"
     )),
-    PEUGEOT("Pagani", listOf(
+    PEUGEOT("Peugeot", listOf(
         "1007", "104", "106",
         "107", "108", "2008",
         "202", "204", "205",

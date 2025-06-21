@@ -3,6 +3,7 @@ package com.drivebuy.persistance.request
 import org.springframework.web.multipart.MultipartFile
 
 data class UpdateAdRequest(
+    val userId: String,
     val make: String? = null,
     val model: String? = null,
     val title: String? = null,

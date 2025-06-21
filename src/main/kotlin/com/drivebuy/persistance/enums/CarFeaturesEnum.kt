@@ -16,5 +16,6 @@ enum class CarFeaturesEnum(val featureName: String) {
     ABS("ABS"), ESC("ESC"), TC("Тракшън контрол"), ALARM("Аларма"), IMMOBILISER("Имобилайзер"),
     CENTRAL_LOCKING("Централно заключване"), AIRBAGS("Въздушни възглавници"), POWER_STEERING("Серво усилване на волана"),
     KEYLESS_ENTRY("Безключов достъп"), ALLOY_WHEELS("Алуминиеви джанти"), TOW_BAR("Теглич"), TAXI("Такси"),
-    SPARE_TYRE("Резервна гума"), CARJACK("Крик"), SEVEN_SEATS("7 Места")
+    SPARE_TYRE("Резервна гума"), CARJACK("Крик"), SEVEN_SEATS("7 Места"),
+    LEATHER_INTERIOR("Кожен салон")
 }

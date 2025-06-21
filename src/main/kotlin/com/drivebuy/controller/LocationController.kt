@@ -23,4 +23,14 @@ class LocationController(private val locationService: LocationService) {
     fun searchCountries(@RequestParam query: String): List<Country> {
         return locationService.searchCountries(query)
     }
+
+    @GetMapping("/regions")
+    fun getAllRegions(): List<Region> {
+        return locationService.getAllRegions()
+    }
+
+    @GetMapping("/regions/{regionId}/cities")
+    fun getCitiesByRegion(@PathVariable regionId: Long): List<City> {
+        return locationService.getCitiesByRegionId(regionId)
+    }
 }
