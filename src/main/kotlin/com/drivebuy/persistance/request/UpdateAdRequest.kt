@@ -14,11 +14,13 @@ data class UpdateAdRequest(
     val displacement: Int? = null,
     val mileage: Int? = null,
     val price: Int? = null,
-    val doorCount: Int? = null,
+    val doorCount: String? = null,
     val ownerCount: Int? = null,
+    val cylinderCount: String? = null,
     val phone: String? = null,
-    val location: String? = null,
-    val featureIds: List<Long>? = null,
+    val region: String? = null,
+    val city: String? = null,
+    val features: List<String>? = null,
     val newImages: List<MultipartFile> = emptyList(),
     val imagesToDelete: List<String> = emptyList()
 )

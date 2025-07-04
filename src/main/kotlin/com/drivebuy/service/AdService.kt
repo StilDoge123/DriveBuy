@@ -10,7 +10,6 @@ import com.drivebuy.repository.car_info.CarFeaturesRepository
 import com.drivebuy.repository.specifications.CarAdSpecifications
 import jakarta.transaction.Transactional
 import org.springframework.data.jpa.domain.Specification
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,42 +21,76 @@ class AdService(
 ) {
     @Transactional
     fun createAd(request: CreateAdRequest): CarAdEntity {
-        val user = userRepository.findById(request.userId)
-            .orElseThrow { RuntimeException("User not found. Register or login to create an ad.") }
+        val user = try {
+            userRepository.findByFirebaseId(request.userId)
+        } catch (exception: Exception) {
+            throw RuntimeException("User not found. Register or login to create an ad.")
+        }
 
         val imageUrls = request.images.map { storageService.uploadAdImage(it) }
+        //val features = featureRepository.findByFeatureNameIn(request.features)
 
-        val features = request.featureIds.map { featureRepository.findById(it).orElseThrow() }
-
+        println("""
+    userId = ${user.firebaseId},
+    make = ${request.make},
+    model = ${request.model},
+    title = ${request.title},
+    description = ${request.description},
+    year = ${request.year},
+    color = ${request.color},
+    hp = ${request.hp},
+    bodyType = ${request.bodyType},
+    condition = ${request.condition},
+    displacement = ${request.displacement},
+    mileage = ${request.mileage},
+    price = ${request.price},
+    doorCount = ${request.doorCount},
+    cylinderCount = ${request.cylinderCount},
+    ownerCount = ${request.ownerCount},
+    phone = ${request.phone},
+    region = ${request.region},
+    city = ${request.city},
+    imageUrls = ${imageUrls.toMutableList()},
+    features = ${request.features.toMutableList()}
+""".trimIndent())
         return adRepository.save(CarAdEntity(
-            userId = request.userId,
+            userId = user.firebaseId,
             make = request.make,
             model = request.model,
             title = request.title,
             description = request.description,
             year = request.year,
             color = request.color,
+            bodyType = request.bodyType,
+            condition = request.condition,
             hp = request.hp,
             displacement = request.displacement,
             mileage = request.mileage,
             price = request.price,
             doorCount = request.doorCount,
+            cylinderCount = request.cylinderCount,
+            transmissionType = request.transmissionType,
+            fuelType = request.fuelType,
+            steeringPosition = request.steeringPosition,
             ownerCount = request.ownerCount,
             phone = request.phone,
-            location = request.location,
+            region = request.region,
+            city = request.city,
             imageUrls = imageUrls.toMutableList(),
-            features = features.toMutableList()
+            features = request.features.toMutableList(),
         ))
     }
 
     @Transactional
     fun updateAd(id: Long, request: UpdateAdRequest): CarAdEntity {
-        val user = userRepository.findById(request.userId)
-            .orElseThrow { RuntimeException("User not found") }
-
+        val user = try {
+            userRepository.findByFirebaseId(request.userId)
+        } catch (exception: Exception) {
+            throw RuntimeException("User not found. Register or login to create an ad.")
+        }
         val ad = adRepository.findById(id).orElseThrow{ RuntimeException("Ad not found") }
 
-        if (ad.userId != request.userId) {
+        if (ad.userId != user.firebaseId) {
             throw RuntimeException("You are not authorized to modify this ad")
         }
 
@@ -74,17 +107,32 @@ class AdService(
         request.doorCount?.let { ad.doorCount = it }
         request.ownerCount?.let { ad.ownerCount = it }
         request.phone?.let { ad.phone = it }
-        request.location?.let { ad.location = it }
+        request.region?.let { ad.region = it }
+        request.city?.let { ad.city = it }
+        request.features?.let { ad.features = it.toMutableList() }
 
         request.imagesToDelete.forEach { storageService.deleteImage(it) }
         val newUrls = request.newImages.map { storageService.uploadAdImage(it) }
         ad.imageUrls.addAll(newUrls)
 
-        request.featureIds?.let { ids ->
-            ad.features = ids.map { featureRepository.findById(it).orElseThrow() }.toMutableList()
+        return adRepository.save(ad)
+    }
+
+    @Transactional
+    fun deleteAd(id: Long, userId: String) {
+        val user = try {
+            userRepository.findByFirebaseId(userId)
+        } catch (exception: Exception) {
+            throw RuntimeException("User not found. Register or login to create an ad.")
         }
 
-        return adRepository.save(ad)
+        val ad = adRepository.findById(id).orElseThrow{ RuntimeException("Ad not found") }
+
+        if (ad.userId != user.firebaseId) {
+            throw RuntimeException("You are not authorized to modify this ad")
+        }
+
+        return adRepository.delete(ad)
     }
 
     fun getAdById(id: Long): CarAdEntity? {
@@ -120,13 +168,25 @@ class AdService(
             ).and(
                 CarAdSpecifications.withDoorCount(filters.doorCount)
             ).and(
-                CarAdSpecifications.withLocation(filters.location)
+                CarAdSpecifications.withCylinderCount(filters.cylinderCount)
+            ).and(
+                CarAdSpecifications.withRegion(filters.region)
+            ).and(
+                CarAdSpecifications.withCity(filters.city)
             ).and(
                 CarAdSpecifications.withFeatures(filters.features)
             ).and(
                 CarAdSpecifications.hasImages(filters.hasImages)
             ).and(
                 CarAdSpecifications.withConditions(filters.conditions)
+            ).and(
+                CarAdSpecifications.withTransmissionType(filters.transmissionType)
+            ).and(
+                CarAdSpecifications.withBodyType(filters.bodyType)
+            ).and(
+                CarAdSpecifications.withFuelType(filters.fuelType)
+            ).and(
+                CarAdSpecifications.withSteeringPosition(filters.steeringPosition)
             )
         )
     }

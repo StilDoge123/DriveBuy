@@ -9,6 +9,7 @@ import com.drivebuy.persistance.response.UserResponse
 import com.drivebuy.service.UserService
 import com.google.firebase.auth.FirebaseAuth
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -18,6 +19,13 @@ class UserController(private val userService: UserService) {
     @PostMapping("/register")
     fun registerUser(@RequestBody registerDto: RegisterUserDTO): UserResponse {
         return userService.registerUser(registerDto)
+    }
+
+    @PostMapping("/login")
+    fun getOrCreateUser(request: HttpServletRequest): ResponseEntity<UserResponse> {
+        val uid = getUidFromRequest(request)
+        val user = userService.getOrCreateUser(uid)
+        return ResponseEntity.ok(UserResponse.fromEntity(user))
     }
 
     @GetMapping("/{firebaseId}")
@@ -82,6 +90,12 @@ class UserController(private val userService: UserService) {
         if (uid != userId) throw RuntimeException("Unauthorized")
 
         return userService.getSavedAds(userId)
+    }
+
+    @PostMapping("/sync-firebase-users")
+    fun syncFirebaseUsers(): ResponseEntity<String> {
+        userService.syncFirebaseUsersWithDatabase()
+        return ResponseEntity.ok("Firebase users synced to database.")
     }
 
     fun getUidFromRequest(request: HttpServletRequest): String {

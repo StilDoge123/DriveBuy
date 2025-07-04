@@ -15,6 +15,7 @@ import com.drivebuy.repository.AdRepository
 import com.drivebuy.repository.SavedAdRepository
 import com.google.firebase.auth.*
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
@@ -22,8 +23,27 @@ class UserService(
     private val adRepository: AdRepository,
     private val savedAdRepository: SavedAdRepository,
     ) {
+    @Transactional
+    fun getOrCreateUser(uid: String): UserEntity {
+        return userRepository.findById(uid).orElseGet {
+            val firebaseUser = FirebaseAuth.getInstance().getUser(uid)
+            val newUser = UserEntity(
+                firebaseId = firebaseUser.uid,
+                email = firebaseUser.email,
+                name = firebaseUser.displayName,
+                phone = firebaseUser.phoneNumber
+            )
+            userRepository.save(newUser)
+        }
+    }
+
     fun createUser(registerDto: RegisterUserDTO): UserEntity {
-        val firebaseUser = createFirebaseUser(registerDto.email, registerDto.password)
+        val firebaseUser = createFirebaseUser(
+            registerDto.email,
+            registerDto.password,
+            registerDto.name,
+            registerDto.phone
+        )
 
         return userRepository.save(
             UserEntity(
@@ -38,7 +58,12 @@ class UserService(
 
     fun registerUser(registerUserDTO: RegisterUserDTO): UserResponse {
         val firebaseUser = try {
-            createFirebaseUser(registerUserDTO.email, registerUserDTO.password)
+            createFirebaseUser(
+                registerUserDTO.email,
+                registerUserDTO.password,
+                registerUserDTO.email,
+                registerUserDTO.phone
+            )
         } catch (e: FirebaseAuthException) {
             when (e.message) {
                 "email-already-exists" -> throw EmailAlreadyExistsException("Email ${registerUserDTO.email} already registered")
@@ -66,12 +91,14 @@ class UserService(
         )
     }
 
-    fun createFirebaseUser(email: String, password: String): UserRecord {
+    fun createFirebaseUser(email: String, password: String, name: String, phone: String): UserRecord {
         return try {
             FirebaseAuth.getInstance().createUser(
                 UserRecord.CreateRequest()
                     .setEmail(email)
                     .setPassword(password)
+                    .setDisplayName(name)
+                    .setPhoneNumber(phone)
                     .setEmailVerified(false)
                     .setDisabled(false)
             )
@@ -83,6 +110,36 @@ class UserService(
                 else -> throw UserRegistrationException("Failed to create user: ${e.message}")
             }
         }
+    }
+
+    fun syncFirebaseUsersWithDatabase() {
+        val firebaseUsers = getAllFirebaseUsers()
+        val dbUserIds = userRepository.findAll().map { it.firebaseId }.toSet()
+
+        for (firebaseUser in firebaseUsers) {
+            if (firebaseUser.uid !in dbUserIds) {
+                val newUser = UserEntity(
+                    firebaseId = firebaseUser.uid,
+                    email = firebaseUser.email ?: "",
+                    name = firebaseUser.displayName ?: "",
+                    phone = firebaseUser.phoneNumber ?: ""
+                )
+                userRepository.save(newUser)
+            }
+        }
+    }
+
+    fun getAllFirebaseUsers(): List<UserRecord> {
+        val users = mutableListOf<UserRecord>()
+        var page: ListUsersPage = FirebaseAuth.getInstance().listUsers(null)
+        while (true) {
+            for (user in page.values) {
+                users.add(user)
+            }
+            if (!page.hasNextPage()) break
+            page = page.nextPage
+        }
+        return users
     }
 
     fun getUserById(firebaseId: String): UserEntity {

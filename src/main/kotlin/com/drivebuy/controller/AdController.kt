@@ -19,31 +19,6 @@ class AdController(
     private val adService: AdService,
     private val objectMapper: ObjectMapper
 ) {
-
-//    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-//    fun createAd(
-//        @RequestPart("data") requestJson: String,
-//        @RequestPart("images") images: List<MultipartFile>
-//    ): CarAdEntity {
-//        val request = objectMapper.readValue(requestJson, CreateAdRequest::class.java)
-//            .copy(images = images)
-//        return adService.createAd(request)
-//    }
-//
-//    @PatchMapping(path = ["/{id}"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-//    fun updateAd(
-//        @PathVariable id: Long,
-//        @RequestPart("data") requestJson: String,
-//        @RequestPart(value = "newImages", required = false) newImages: List<MultipartFile>?,
-//        @RequestPart(value = "imagesToDelete", required = false) imagesToDelete: List<String>?
-//    ): CarAdEntity {
-//        val request = objectMapper.readValue(requestJson, UpdateAdRequest::class.java).copy(
-//            newImages = newImages ?: emptyList(),
-//            imagesToDelete = imagesToDelete ?: emptyList()
-//        )
-//        return adService.updateAd(id, request)
-//    }
-
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun createAd(
         @RequestPart("data") requestJson: String,
@@ -71,6 +46,15 @@ class AdController(
             userId = uid
         )
         return adService.updateAd(id, requestObj)
+    }
+
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteAd(
+        @PathVariable id: Long,
+        request: HttpServletRequest
+    ) {
+        val uid = getUidFromRequest(request)
+        return adService.deleteAd(id, uid)
     }
 
     fun getUidFromRequest(request: HttpServletRequest): String {
@@ -112,9 +96,15 @@ class AdController(
         @RequestParam(required = false) maxOwnerCount: Int?,
         @RequestParam(required = false) minPrice: Int?,
         @RequestParam(required = false) maxPrice: Int?,
-        @RequestParam(required = false) doorCount: Int?,
+        @RequestParam(required = false) doorCount: String?,
+        @RequestParam(required = false) transmissionType: String?,
+        @RequestParam(required = false) bodyType: String?,
+        @RequestParam(required = false) fuelType: String?,
+        @RequestParam(required = false) steeringPosition: String?,
+        @RequestParam(required = false) cylinderCount: String?,
         @RequestParam(required = false) phone: String?,
-        @RequestParam(required = false) location: String?,
+        @RequestParam(required = false) region: String?,
+        @RequestParam(required = false) city: String?,
         @RequestParam(required = false) features: List<String>?,
         @RequestParam(required = false) conditions: List<String>?,
         @RequestParam(required = false) hasImages: Boolean?
@@ -137,7 +127,13 @@ class AdController(
             minPrice = minPrice,
             maxPrice = maxPrice,
             doorCount = doorCount,
-            location = location,
+            transmissionType = transmissionType,
+            bodyType = bodyType,
+            fuelType = fuelType,
+            steeringPosition = steeringPosition,
+            cylinderCount = cylinderCount,
+            region = region,
+            city = city,
             features = features,
             conditions = conditions,
             hasImages = hasImages

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface CarFeaturesRepository : JpaRepository<CarFeaturesEntity, Long> {
     fun findByFeatureName(featureName: String): CarFeaturesEntity?
+    fun findByFeatureNameIn(featureNames: List<String>): List<CarFeaturesEntity>
 }

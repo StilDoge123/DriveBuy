@@ -28,10 +28,17 @@ data class CarAdFilters(
     val maxPrice: Int? = null,
 
     // Physical attributes
-    val doorCount: Int? = null,
+    val doorCount: String? = null,
+    val cylinderCount: String? = null,
+    val transmissionType: String? = null,
+    val fuelType: String? = null,
+    val bodyType: String? = null,
+    val steeringPosition: String? = null,
+
 
     // Contact info
-    val location: String? = null,
+    val region: String? = null,
+    val city: String? = null,
 
     // Features (exact match)
     val features: List<String>? = null,

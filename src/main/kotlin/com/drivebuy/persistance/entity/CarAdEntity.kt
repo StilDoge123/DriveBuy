@@ -1,10 +1,8 @@
 package com.drivebuy.persistance.entity
 
-import com.drivebuy.persistance.entity.car_info.CarFeaturesEntity
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Positive
 
 @Entity
 @Table(name = "ads")
@@ -44,28 +42,32 @@ data class CarAdEntity(
     @field:Min(1)
     var price:Int,
 
-    @field:Positive
-    var doorCount: Int,
+    var bodyType: String,
+
+    var condition: String,
+
+    var doorCount: String,
+
+    val cylinderCount: String,
+
+    val transmissionType: String,
+
+    val fuelType: String,
+
+    val steeringPosition: String,
 
     @field:Min(0)
     var ownerCount: Int,
 
     var phone: String,
 
-    var location: String,
+    var region: String,
 
-    @ElementCollection
-    @CollectionTable(name = "ad_images", joinColumns = [JoinColumn(name = "ad_id")])
-    @Column(name = "image_url")
+    var city: String,
+
     val imageUrls: MutableList<String> = mutableListOf(),
 
-    @ManyToMany(targetEntity = CarFeaturesEntity::class)
-    @JoinTable(
-        name = "car_ad_features",
-        joinColumns = [JoinColumn(name = "car_ad_id")],
-        inverseJoinColumns = [JoinColumn(name = "car_feature_id")]
-    )
-    var features: MutableList<CarFeaturesEntity> = mutableListOf()
+    var features: MutableList<String> = mutableListOf()
 ) {
     init {
         val currentYear = java.time.Year.now().value

@@ -83,13 +83,20 @@ class CarAdSpecifications {
         }
 
         // Physical attributes
-        fun withDoorCount(doorCount: Int?): Specification<CarAdEntity> = Specification { root, _, cb ->
-            doorCount?.let { cb.equal(root.get<Int>("doorCount"), it) } ?: cb.conjunction()
+        fun withDoorCount(doorCount: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            doorCount?.let { cb.equal(root.get<String>("doorCount"), it) } ?: cb.conjunction()
+        }
+
+        fun withCylinderCount(cylinderCount: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            cylinderCount?.let { cb.equal(root.get<String>("cylinderCount"), it) } ?: cb.conjunction()
         }
 
         // Location
-        fun withLocation(location: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
-            location?.let { cb.equal(root.get<String>("location"), it) } ?: cb.conjunction()
+        fun withRegion(region: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            region?.let { cb.equal(root.get<String>("region"), it) } ?: cb.conjunction()
+        }
+        fun withCity(city: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            city?.let { cb.equal(root.get<String>("city"), it) } ?: cb.conjunction()
         }
 
         // Condition
@@ -117,6 +124,22 @@ class CarAdSpecifications {
                     cb.isEmpty(root.get<List<String>>("imageUrls"))
                 }
             } ?: cb.conjunction()
+        }
+
+        fun withTransmissionType(transmissionType: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            transmissionType?.let { cb.equal(root.get<String>("transmissionType"), it) } ?: cb.conjunction()
+        }
+
+        fun withBodyType(bodyType: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            bodyType?.let { cb.equal(root.get<String>("bodyType"), it) } ?: cb.conjunction()
+        }
+
+        fun withFuelType(fuelType: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            fuelType?.let { cb.equal(root.get<String>("fuelType"), it) } ?: cb.conjunction()
+        }
+
+        fun withSteeringPosition(steeringPosition: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            steeringPosition?.let { cb.equal(root.get<String>("steeringPosition"), it) } ?: cb.conjunction()
         }
     }
 }
