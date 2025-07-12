@@ -6,7 +6,6 @@ import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.request.CreateAdRequest
 import com.drivebuy.persistance.request.UpdateAdRequest
 import com.drivebuy.repository.UserRepository
-import com.drivebuy.repository.car_info.CarFeaturesRepository
 import com.drivebuy.repository.specifications.CarAdSpecifications
 import jakarta.transaction.Transactional
 import org.springframework.data.jpa.domain.Specification
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service
 class AdService(
     private val adRepository: AdRepository,
     private val userRepository: UserRepository,
-    private val featureRepository: CarFeaturesRepository,
     private val storageService: FirebaseStorageService
 ) {
     @Transactional
@@ -147,6 +145,8 @@ class AdService(
         return adRepository.findAll(
             Specification.where(
                 CarAdSpecifications.withUserId(filters.userId)
+            ).and(
+                CarAdSpecifications.withKeyword(filters.keyword)
             ).and(
                 CarAdSpecifications.withMake(filters.make)
             ).and(

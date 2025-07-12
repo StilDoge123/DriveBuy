@@ -81,6 +81,7 @@ class AdController(
     @GetMapping("/filter")
     fun getFilteredAds(
         @RequestParam(required = false) userId: String?,
+        @RequestParam(required = false) keyword: String?,
         @RequestParam(required = false) make: String?,
         @RequestParam(required = false) model: String?,
         @RequestParam(required = false) minYear: Int?,
@@ -111,6 +112,7 @@ class AdController(
     ): List<CarAdEntity> {
         val filters = CarAdFilters(
             userId = userId,
+            keyword = keyword,
             make = make,
             model = model,
             minYear = minYear,

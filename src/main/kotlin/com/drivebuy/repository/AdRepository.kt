@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AdRepository : JpaRepository<CarAdEntity, Long>, JpaSpecificationExecutor<CarAdEntity> {
     fun findByUserId(userId: String): List<CarAdEntity>
+    fun findEntityById(id: Long): CarAdEntity
 }

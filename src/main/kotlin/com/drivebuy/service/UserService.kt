@@ -164,17 +164,31 @@ class UserService(
     fun saveAd(userId: String, adId: Long) {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
         if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
-        if (!savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
-            savedAdRepository.save(SavedAdEntity(userId = userId, adId = adId))
+
+        val user = userRepository.findByFirebaseId(userId)
+        val ad = adRepository.findEntityById(adId)
+        if (!user.savedAds.contains(ad)) {
+            user.savedAds.add(ad)
+            userRepository.save(user)
         }
+//        if (!savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
+//            savedAdRepository.save(SavedAdEntity(userId = userId, adId = adId))
+//        }
     }
 
     fun removeSavedAd(userId: String, adId: Long) {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
         if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
-        if (savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
-            savedAdRepository.delete(SavedAdEntity(userId = userId, adId = adId))
+
+        val user = userRepository.findByFirebaseId(userId)
+        val ad = adRepository.findEntityById(adId)
+        if (user.savedAds.contains(ad)) {
+            user.savedAds.remove(ad)
+            userRepository.save(user)
         }
+//        if (savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
+//            savedAdRepository.delete(SavedAdEntity(userId = userId, adId = adId))
+//        }
     }
 
     fun getSavedAds(userId: String): List<CarAdEntity> {

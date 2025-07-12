@@ -141,5 +141,25 @@ class CarAdSpecifications {
         fun withSteeringPosition(steeringPosition: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
             steeringPosition?.let { cb.equal(root.get<String>("steeringPosition"), it) } ?: cb.conjunction()
         }
+
+        fun withKeyword(keyword: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            keyword?.let { searchTerm ->
+                val searchPattern = "%${searchTerm.lowercase()}%"
+                cb.or(
+                    cb.like(cb.lower(root.get("title")), searchPattern),
+                    cb.like(cb.lower(root.get("description")), searchPattern),
+                    cb.like(cb.lower(root.get("make")), searchPattern),
+                    cb.like(cb.lower(root.get("model")), searchPattern),
+                    cb.like(cb.lower(root.get("color")), searchPattern),
+                    cb.like(cb.lower(root.get("region")), searchPattern),
+                    cb.like(cb.lower(root.get("city")), searchPattern),
+                    cb.like(cb.lower(root.get("transmissionType")), searchPattern),
+                    cb.like(cb.lower(root.get("fuelType")), searchPattern),
+                    cb.like(cb.lower(root.get("bodyType")), searchPattern),
+                    cb.like(cb.lower(root.get("condition")), searchPattern),
+                    cb.like(cb.lower(root.get("features")), searchPattern)
+                )
+            } ?: cb.conjunction()
+        }
     }
 }

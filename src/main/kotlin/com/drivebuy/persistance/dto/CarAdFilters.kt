@@ -4,6 +4,9 @@ data class CarAdFilters(
     // User filters
     val userId: String? = null,
 
+    // Keyword search
+    val keyword: String? = null,
+
     // Basic car info
     val make: String? = null,
     val model: String? = null,
