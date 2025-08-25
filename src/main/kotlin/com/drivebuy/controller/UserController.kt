@@ -62,7 +62,7 @@ class UserController(private val userService: UserService) {
         @PathVariable userId: String,
         @PathVariable adId: Long,
         request: HttpServletRequest
-    ) {
+    ) : List<CarAdEntity> {
         val uid = getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
 
@@ -74,7 +74,7 @@ class UserController(private val userService: UserService) {
         @PathVariable userId: String,
         @PathVariable adId: Long,
         request: HttpServletRequest
-    ) {
+    ) : List<CarAdEntity> {
         val uid = getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
 

@@ -6,7 +6,6 @@ import com.drivebuy.exception.UserRegistrationException
 import com.drivebuy.exception.WeakPasswordException
 import com.drivebuy.persistance.dto.RegisterUserDTO
 import com.drivebuy.persistance.entity.CarAdEntity
-import com.drivebuy.persistance.entity.SavedAdEntity
 import com.drivebuy.repository.UserRepository
 import com.drivebuy.persistance.entity.UserEntity
 import com.drivebuy.persistance.request.UpdateUserRequest
@@ -161,7 +160,7 @@ class UserService(
         return userRepository.save(user)
     }
 
-    fun saveAd(userId: String, adId: Long) {
+    fun saveAd(userId: String, adId: Long): List<CarAdEntity> {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
         if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
 
@@ -171,12 +170,14 @@ class UserService(
             user.savedAds.add(ad)
             userRepository.save(user)
         }
+
+        return user.savedAds
 //        if (!savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
 //            savedAdRepository.save(SavedAdEntity(userId = userId, adId = adId))
 //        }
     }
 
-    fun removeSavedAd(userId: String, adId: Long) {
+    fun removeSavedAd(userId: String, adId: Long): List<CarAdEntity> {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
         if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
 
@@ -186,6 +187,8 @@ class UserService(
             user.savedAds.remove(ad)
             userRepository.save(user)
         }
+
+        return user.savedAds
 //        if (savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
 //            savedAdRepository.delete(SavedAdEntity(userId = userId, adId = adId))
 //        }
@@ -193,7 +196,9 @@ class UserService(
 
     fun getSavedAds(userId: String): List<CarAdEntity> {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
-        val savedAdIds = savedAdRepository.findByUserId(userId).map { it.adId }
-        return adRepository.findAllById(savedAdIds)
+        val user = userRepository.findByFirebaseId(userId)
+        return user.savedAds
+//        val savedAdIds = savedAdRepository.findByUserId(userId).map { it.adId }
+//        return adRepository.findAllById(savedAdIds)
     }
 }
