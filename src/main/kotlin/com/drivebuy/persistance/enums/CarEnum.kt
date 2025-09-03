@@ -54,7 +54,11 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "XM", "Z1", "Z3", "Z4", "Z8", "i3", "i4", "i5", "i7",
         "i8", "iX", "iX1", "iX2", "iX3"
     )),
-    BUGATTI("Bugatti", listOf("Chiron", "Veyron")),
+    BUGATTI("Bugatti", listOf("Chiron", "Veyron", "Divo",
+        "Chiron Super Sport", "Chiron Super Sport 300+", "EB110",
+        "Mistral", "La Voiture Noire", "Chiron Sport", "Centodieci",
+        "Tourbillon", "Chiron Pur Sport", "Bolide", "Type 57SC Atlantic",
+    )),
     BUICK("Buick", listOf(
         "Century", "Electra", "Enclave", "Invicta", "Park avenue",
         "Regal", "Rendezvous", "Riviera", "Skylark", "Skyline"
