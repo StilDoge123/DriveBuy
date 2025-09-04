@@ -93,7 +93,7 @@ class ChatController(private val chatService: ChatService) {
         return chatService.getChatByAdId(adId, userId)
     }
 
-    private fun getUidFromRequest(request: HttpServletRequest): String {
+    fun getUidFromRequest(request: HttpServletRequest): String {
         val authHeader = request.getHeader("Authorization")
             ?: throw RuntimeException("Missing Authorization header")
         if (!authHeader.startsWith("Bearer ")) {
