@@ -50,5 +50,8 @@ data class CarAdFilters(
     val conditions: List<String>? = null,
 
     // Image presence
-    val hasImages: Boolean? = null
+    val hasImages: Boolean? = null,
+
+    // Sorting
+    val sortBy: SortOption? = null
 )

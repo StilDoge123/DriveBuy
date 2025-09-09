@@ -1,6 +1,8 @@
 package com.drivebuy.controller
 
+import com.drivebuy.persistance.dto.CarAdDto
 import com.drivebuy.persistance.dto.CarAdFilters
+import com.drivebuy.persistance.dto.SortOption
 import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.request.CreateAdRequest
 import com.drivebuy.persistance.request.UpdateAdRequest
@@ -73,6 +75,11 @@ class AdController(
         return adService.getAdById(id)
     }
 
+    @GetMapping("/{id}/with-user-info")
+    fun getAdWithUserInfo(@PathVariable id: Long): CarAdDto? {
+        return adService.getAdByIdWithUserInfo(id)
+    }
+
     @GetMapping("/user/{userId}")
     fun getAdsByUserId(@PathVariable userId: String): List<CarAdEntity> {
         return adService.getAdsByUserId(userId)
@@ -108,7 +115,8 @@ class AdController(
         @RequestParam(required = false) city: String?,
         @RequestParam(required = false) features: List<String>?,
         @RequestParam(required = false) conditions: List<String>?,
-        @RequestParam(required = false) hasImages: Boolean?
+        @RequestParam(required = false) hasImages: Boolean?,
+        @RequestParam(required = false) sortBy: SortOption?
     ): List<CarAdEntity> {
         val filters = CarAdFilters(
             userId = userId,
@@ -138,8 +146,84 @@ class AdController(
             city = city,
             features = features,
             conditions = conditions,
-            hasImages = hasImages
+            hasImages = hasImages,
+            sortBy = sortBy
         )
         return adService.getFilteredAds(filters)
+    }
+
+    @GetMapping("/all")
+    fun getAllAds(
+        @RequestParam(required = false) sortBy: SortOption?
+    ): List<CarAdEntity> {
+        val filters = CarAdFilters(sortBy = sortBy)
+        return adService.getFilteredAds(filters)
+    }
+
+    @GetMapping("/with-user-info")
+    fun getAdsWithUserInfo(
+        @RequestParam(required = false) userId: String?,
+        @RequestParam(required = false) keyword: String?,
+        @RequestParam(required = false) make: String?,
+        @RequestParam(required = false) model: String?,
+        @RequestParam(required = false) minYear: Int?,
+        @RequestParam(required = false) maxYear: Int?,
+        @RequestParam(required = false) color: String?,
+        @RequestParam(required = false) minHp: Int?,
+        @RequestParam(required = false) maxHp: Int?,
+        @RequestParam(required = false) minDisplacement: Int?,
+        @RequestParam(required = false) maxDisplacement: Int?,
+        @RequestParam(required = false) minMileage: Int?,
+        @RequestParam(required = false) maxMileage: Int?,
+        @RequestParam(required = false) minOwnerCount: Int?,
+        @RequestParam(required = false) maxOwnerCount: Int?,
+        @RequestParam(required = false) minPrice: Int?,
+        @RequestParam(required = false) maxPrice: Int?,
+        @RequestParam(required = false) doorCount: String?,
+        @RequestParam(required = false) transmissionType: String?,
+        @RequestParam(required = false) bodyType: String?,
+        @RequestParam(required = false) fuelType: String?,
+        @RequestParam(required = false) steeringPosition: String?,
+        @RequestParam(required = false) cylinderCount: String?,
+        @RequestParam(required = false) phone: String?,
+        @RequestParam(required = false) region: String?,
+        @RequestParam(required = false) city: String?,
+        @RequestParam(required = false) features: List<String>?,
+        @RequestParam(required = false) conditions: List<String>?,
+        @RequestParam(required = false) hasImages: Boolean?,
+        @RequestParam(required = false) sortBy: SortOption?
+    ): List<CarAdDto> {
+        val filters = CarAdFilters(
+            userId = userId,
+            keyword = keyword,
+            make = make,
+            model = model,
+            minYear = minYear,
+            maxYear = maxYear,
+            color = color,
+            minHp = minHp,
+            maxHp = maxHp,
+            minDisplacement = minDisplacement,
+            maxDisplacement = maxDisplacement,
+            minMileage = minMileage,
+            maxMileage = maxMileage,
+            minOwnerCount = minOwnerCount,
+            maxOwnerCount = maxOwnerCount,
+            minPrice = minPrice,
+            maxPrice = maxPrice,
+            doorCount = doorCount,
+            transmissionType = transmissionType,
+            bodyType = bodyType,
+            fuelType = fuelType,
+            steeringPosition = steeringPosition,
+            cylinderCount = cylinderCount,
+            region = region,
+            city = city,
+            features = features,
+            conditions = conditions,
+            hasImages = hasImages,
+            sortBy = sortBy
+        )
+        return adService.getFilteredAdsWithUserInfo(filters)
     }
 }

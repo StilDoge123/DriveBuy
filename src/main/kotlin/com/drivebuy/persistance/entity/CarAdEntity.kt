@@ -3,6 +3,7 @@ package com.drivebuy.persistance.entity
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.Max
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "ads")
@@ -67,7 +68,10 @@ data class CarAdEntity(
 
     val imageUrls: MutableList<String> = mutableListOf(),
 
-    var features: MutableList<String> = mutableListOf()
+    var features: MutableList<String> = mutableListOf(),
+
+    @Column(name = "created_at")
+    val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
     init {
         val currentYear = java.time.Year.now().value

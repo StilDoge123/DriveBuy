@@ -1,5 +1,6 @@
 package com.drivebuy.persistance.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -27,9 +28,11 @@ data class MessageEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatId", insertable = false, updatable = false)
+    @JsonIgnore
     val chat: ChatEntity? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "senderId", referencedColumnName = "firebaseId", insertable = false, updatable = false)
+    @JsonIgnore
     val sender: UserEntity? = null
 )

@@ -7,7 +7,7 @@ import com.drivebuy.persistance.request.UpdateAdRequest
 import com.drivebuy.persistance.request.UpdateUserRequest
 import com.drivebuy.persistance.response.UserResponse
 import com.drivebuy.service.UserService
-import com.google.firebase.auth.FirebaseAuth
+import com.drivebuy.util.AuthUtil
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -23,7 +23,7 @@ class UserController(private val userService: UserService) {
 
     @PostMapping("/login")
     fun getOrCreateUser(request: HttpServletRequest): ResponseEntity<UserResponse> {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         val user = userService.getOrCreateUser(uid)
         return ResponseEntity.ok(UserResponse.fromEntity(user))
     }
@@ -40,7 +40,7 @@ class UserController(private val userService: UserService) {
 
     @GetMapping("/me")
     fun getCurrentUser(request: HttpServletRequest): UserResponse {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         val user = userService.getUserById(uid)
         return UserResponse.fromEntity(user)
     }
@@ -51,7 +51,7 @@ class UserController(private val userService: UserService) {
         @RequestBody updateUserRequest: UpdateUserRequest,
         request: HttpServletRequest
     ): UserResponse {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
         val updatedUser = userService.updateUser(userId, updateUserRequest)
         return UserResponse.fromEntity(updatedUser)
@@ -63,7 +63,7 @@ class UserController(private val userService: UserService) {
         @PathVariable adId: Long,
         request: HttpServletRequest
     ) : List<CarAdEntity> {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
 
         return userService.saveAd(userId, adId)
@@ -75,7 +75,7 @@ class UserController(private val userService: UserService) {
         @PathVariable adId: Long,
         request: HttpServletRequest
     ) : List<CarAdEntity> {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
 
         return userService.removeSavedAd(userId, adId)
@@ -86,7 +86,7 @@ class UserController(private val userService: UserService) {
         @PathVariable userId: String,
         request: HttpServletRequest
     ): List<CarAdEntity> {
-        val uid = getUidFromRequest(request)
+        val uid = AuthUtil.getUidFromRequest(request)
         if (uid != userId) throw RuntimeException("Unauthorized")
 
         return userService.getSavedAds(userId)
@@ -98,14 +98,4 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok("Firebase users synced to database.")
     }
 
-    fun getUidFromRequest(request: HttpServletRequest): String {
-        val authHeader = request.getHeader("Authorization")
-            ?: throw RuntimeException("Missing Authorization header")
-        if (!authHeader.startsWith("Bearer ")) {
-            throw RuntimeException("Invalid Authorization header")
-        }
-        val idToken = authHeader.removePrefix("Bearer ").trim()
-        val decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken)
-        return decodedToken.uid
-    }
 }

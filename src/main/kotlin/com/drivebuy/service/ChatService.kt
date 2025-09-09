@@ -14,7 +14,8 @@ class ChatService(
     private val chatRepository: ChatRepository,
     private val messageService: MessageService,
     private val adRepository: AdRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notificationService: NotificationService
 ) {
 
     fun createOrGetChat(adId: Long, buyerId: String, sellerId: String): ChatEntity {
@@ -22,8 +23,14 @@ class ChatService(
             RuntimeException("Ad not found with id: $adId") 
         }
         
+        // Validate that the seller is the owner of the ad
         if (ad.userId != sellerId) {
             throw RuntimeException("User $sellerId is not the owner of ad $adId")
+        }
+        
+        // Validate that the buyer is not the same as the seller (can't chat with yourself)
+        if (buyerId == sellerId) {
+            throw RuntimeException("Cannot create chat with yourself")
         }
         
         if (!userRepository.existsById(buyerId)) {
@@ -83,12 +90,25 @@ class ChatService(
         chat.lastMessageAt = savedMessage.timestamp
         chatRepository.save(chat)
         
+        // Notify the recipient
+        val recipientId = if (senderId == chat.buyerId) chat.sellerId else chat.buyerId
+        notificationService.notifyNewMessage(chatId, savedMessage, recipientId)
+        
+        // Update unread count for recipient
+        val unreadCount = messageService.countTotalUnreadMessagesByUserId(recipientId)
+        notificationService.notifyUnreadCountUpdate(recipientId, unreadCount)
+        
         return savedMessage
     }
 
     fun markMessagesAsRead(chatId: Long, userId: String) {
-        getChatById(chatId, userId)
+        val chat = getChatById(chatId, userId)
         messageService.markMessagesAsRead(chatId, userId)
+        
+        // Notify the sender that messages were read
+        val senderId = if (userId == chat.buyerId) chat.sellerId else chat.buyerId
+        val unreadCount = messageService.countTotalUnreadMessagesByUserId(senderId)
+        notificationService.notifyUnreadCountUpdate(senderId, unreadCount)
     }
 
     fun getUnreadMessageCount(userId: String): Long {

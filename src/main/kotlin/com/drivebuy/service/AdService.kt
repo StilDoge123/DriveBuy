@@ -1,5 +1,6 @@
 package com.drivebuy.service
 
+import com.drivebuy.persistance.dto.CarAdDto
 import com.drivebuy.persistance.dto.CarAdFilters
 import com.drivebuy.repository.AdRepository
 import com.drivebuy.persistance.entity.CarAdEntity
@@ -8,6 +9,7 @@ import com.drivebuy.persistance.request.UpdateAdRequest
 import com.drivebuy.repository.UserRepository
 import com.drivebuy.repository.specifications.CarAdSpecifications
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 
@@ -137,57 +139,86 @@ class AdService(
         return adRepository.findById(id).orElse(null)
     }
 
+    fun getAdByIdWithUserInfo(id: Long): CarAdDto? {
+        val ad = adRepository.findById(id).orElse(null) ?: return null
+        val seller = userRepository.findById(ad.userId).orElse(null) ?: return null
+        return CarAdDto.fromEntity(ad, seller)
+    }
+
     fun getAdsByUserId(userId: String): List<CarAdEntity> {
         return adRepository.findByUserId(userId)
     }
 
     fun getFilteredAds(filters: CarAdFilters): List<CarAdEntity> {
-        return adRepository.findAll(
-            Specification.where(
-                CarAdSpecifications.withUserId(filters.userId)
-            ).and(
-                CarAdSpecifications.withKeyword(filters.keyword)
-            ).and(
-                CarAdSpecifications.withMake(filters.make)
-            ).and(
-                CarAdSpecifications.withModel(filters.model)
-            ).and(
-                CarAdSpecifications.withYearBetween(filters.minYear, filters.maxYear)
-            ).and(
-                CarAdSpecifications.withColor(filters.color)
-            ).and(
-                CarAdSpecifications.withHpBetween(filters.minHp, filters.maxHp)
-            ).and(
-                CarAdSpecifications.withDisplacementBetween(filters.minDisplacement, filters.maxDisplacement)
-            ).and(
-                CarAdSpecifications.withMileageBetween(filters.minMileage, filters.maxMileage)
-            ).and(
-                CarAdSpecifications.withOwnerCountBetween(filters.minOwnerCount, filters.maxOwnerCount)
-            ).and(
-                CarAdSpecifications.withPriceBetween(filters.minPrice, filters.maxPrice)
-            ).and(
-                CarAdSpecifications.withDoorCount(filters.doorCount)
-            ).and(
-                CarAdSpecifications.withCylinderCount(filters.cylinderCount)
-            ).and(
-                CarAdSpecifications.withRegion(filters.region)
-            ).and(
-                CarAdSpecifications.withCity(filters.city)
-            ).and(
-                CarAdSpecifications.withFeatures(filters.features)
-            ).and(
-                CarAdSpecifications.hasImages(filters.hasImages)
-            ).and(
-                CarAdSpecifications.withConditions(filters.conditions)
-            ).and(
-                CarAdSpecifications.withTransmissionType(filters.transmissionType)
-            ).and(
-                CarAdSpecifications.withBodyType(filters.bodyType)
-            ).and(
-                CarAdSpecifications.withFuelType(filters.fuelType)
-            ).and(
-                CarAdSpecifications.withSteeringPosition(filters.steeringPosition)
-            )
+        val specification = Specification.where(
+            CarAdSpecifications.withUserId(filters.userId)
+        ).and(
+            CarAdSpecifications.withKeyword(filters.keyword)
+        ).and(
+            CarAdSpecifications.withMake(filters.make)
+        ).and(
+            CarAdSpecifications.withModel(filters.model)
+        ).and(
+            CarAdSpecifications.withYearBetween(filters.minYear, filters.maxYear)
+        ).and(
+            CarAdSpecifications.withColor(filters.color)
+        ).and(
+            CarAdSpecifications.withHpBetween(filters.minHp, filters.maxHp)
+        ).and(
+            CarAdSpecifications.withDisplacementBetween(filters.minDisplacement, filters.maxDisplacement)
+        ).and(
+            CarAdSpecifications.withMileageBetween(filters.minMileage, filters.maxMileage)
+        ).and(
+            CarAdSpecifications.withOwnerCountBetween(filters.minOwnerCount, filters.maxOwnerCount)
+        ).and(
+            CarAdSpecifications.withPriceBetween(filters.minPrice, filters.maxPrice)
+        ).and(
+            CarAdSpecifications.withDoorCount(filters.doorCount)
+        ).and(
+            CarAdSpecifications.withCylinderCount(filters.cylinderCount)
+        ).and(
+            CarAdSpecifications.withRegion(filters.region)
+        ).and(
+            CarAdSpecifications.withCity(filters.city)
+        ).and(
+            CarAdSpecifications.withFeatures(filters.features)
+        ).and(
+            CarAdSpecifications.hasImages(filters.hasImages)
+        ).and(
+            CarAdSpecifications.withConditions(filters.conditions)
+        ).and(
+            CarAdSpecifications.withTransmissionType(filters.transmissionType)
+        ).and(
+            CarAdSpecifications.withBodyType(filters.bodyType)
+        ).and(
+            CarAdSpecifications.withFuelType(filters.fuelType)
+        ).and(
+            CarAdSpecifications.withSteeringPosition(filters.steeringPosition)
         )
+
+        // Apply sorting if specified
+        val sort = filters.sortBy?.let { sortOption ->
+            if (sortOption.isAscending()) {
+                Sort.by(Sort.Direction.ASC, sortOption.fieldName)
+            } else {
+                Sort.by(Sort.Direction.DESC, sortOption.fieldName)
+            }
+        } ?: Sort.by(Sort.Direction.DESC, "createdAt") // Default sort by newest first
+
+        return adRepository.findAll(specification, sort)
+    }
+
+    fun getFilteredAdsWithUserInfo(filters: CarAdFilters): List<CarAdDto> {
+        val ads = getFilteredAds(filters)
+        
+        // Get all unique user IDs from the ads
+        val userIds = ads.map { it.userId }.distinct()
+        
+        // Fetch all users in one query
+        val users = userRepository.findAllById(userIds)
+        val userMap = users.associateBy { it.firebaseId }
+        
+        // Convert to CarAdDto with user info
+        return CarAdDto.fromEntities(ads, userMap)
     }
 }
