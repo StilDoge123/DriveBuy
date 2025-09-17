@@ -31,11 +31,7 @@ class FirebaseConfig {
                     .setStorageBucket(storageBucket)
                     .build()
             } else {
-                // --- FOR LOCAL DEVELOPMENT ---
-                // Fallback to a local file path.
-                // Make sure you have the GOOGLE_APPLICATION_CREDENTIALS env var set locally,
-                // or change this path to your local JSON key file.
-                val serviceAccountStream = FileInputStream("src/main/resources/firebase-service-account.json") // <-- Or your local path
+                val serviceAccountStream = FileInputStream("src/main/resources/firebase-service-account.json")
                 options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
                     .setStorageBucket(storageBucket)

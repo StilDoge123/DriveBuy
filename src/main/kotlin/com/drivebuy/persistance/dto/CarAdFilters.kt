@@ -37,7 +37,7 @@ data class CarAdFilters(
     val fuelType: String? = null,
     val bodyType: String? = null,
     val steeringPosition: String? = null,
-
+    val driveType: String? = null,
 
     // Contact info
     val region: String? = null,

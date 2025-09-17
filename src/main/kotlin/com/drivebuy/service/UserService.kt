@@ -11,7 +11,6 @@ import com.drivebuy.persistance.entity.UserEntity
 import com.drivebuy.persistance.request.UpdateUserRequest
 import com.drivebuy.persistance.response.UserResponse
 import com.drivebuy.repository.AdRepository
-import com.drivebuy.repository.SavedAdRepository
 import com.google.firebase.auth.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userRepository: UserRepository,
     private val adRepository: AdRepository,
-    private val savedAdRepository: SavedAdRepository,
     ) {
     @Transactional
     fun getOrCreateUser(uid: String): UserEntity {
@@ -172,9 +170,6 @@ class UserService(
         }
 
         return user.savedAds
-//        if (!savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
-//            savedAdRepository.save(SavedAdEntity(userId = userId, adId = adId))
-//        }
     }
 
     fun removeSavedAd(userId: String, adId: Long): List<CarAdEntity> {
@@ -189,16 +184,11 @@ class UserService(
         }
 
         return user.savedAds
-//        if (savedAdRepository.existsByUserIdAndAdId(userId, adId)) {
-//            savedAdRepository.delete(SavedAdEntity(userId = userId, adId = adId))
-//        }
     }
 
     fun getSavedAds(userId: String): List<CarAdEntity> {
         if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
         val user = userRepository.findByFirebaseId(userId)
         return user.savedAds
-//        val savedAdIds = savedAdRepository.findByUserId(userId).map { it.adId }
-//        return adRepository.findAllById(savedAdIds)
     }
 }

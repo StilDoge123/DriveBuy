@@ -22,6 +22,7 @@ data class CarAdDto(
     val transmissionType: String?,
     val fuelType: String?,
     val steeringPosition: String?,
+    val driveType: String?,
     val ownerCount: Int,
     val phone: String?,
     val region: String?,
@@ -55,12 +56,13 @@ data class CarAdDto(
                 transmissionType = ad.transmissionType,
                 fuelType = ad.fuelType,
                 steeringPosition = ad.steeringPosition,
+                driveType = ad.driveType,
                 ownerCount = ad.ownerCount,
                 phone = ad.phone,
                 region = ad.region,
                 city = ad.city,
-                imageUrls = ad.imageUrls.toList(),
-                features = ad.features.toList(),
+                imageUrls = ad.imageUrls?.toList() ?: emptyList(),
+                features = ad.features?.toList() ?: emptyList(),
                 createdAt = ad.createdAt,
                 seller = UserResponse.fromEntity(seller)
             )

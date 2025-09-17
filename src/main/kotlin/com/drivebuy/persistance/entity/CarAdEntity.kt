@@ -19,54 +19,76 @@ data class CarAdEntity(
     @Column(nullable = false)
     var model: String,
 
-    var title: String,
+    @Column(nullable = true)
+    var title: String?,
 
-    var description: String,
+    @Column(nullable = true)
+    var description: String?,
 
     @field:Min(1900)
     @field:Max(value = Int.MAX_VALUE.toLong())
+    @Column(nullable = false)
     var year: Int,
 
-    var color: String,
+    @Column(nullable = true)
+    var color: String?,
 
     @field:Min(1)
     @field:Max(10000)
+    @Column(nullable = false)
     var hp: Int,
 
     @field:Min(1)
     @field:Max(100000)
+    @Column(nullable = false)
     var displacement: Int,
 
     @field:Min(1)
+    @Column(nullable = false)
     var mileage: Int,
 
     @field:Min(1)
-    var price:Int,
+    @Column(nullable = false)
+    var price: Int,
 
-    var bodyType: String,
+    @Column(nullable = true)
+    var bodyType: String?,
 
-    var condition: String,
+    @Column(nullable = true)
+    var condition: String?,
 
-    var doorCount: String,
+    @Column(nullable = true)
+    var doorCount: String?,
 
-    val cylinderCount: String,
+    @Column(nullable = true)
+    var cylinderCount: String?,
 
-    val transmissionType: String,
+    @Column(nullable = true)
+    var transmissionType: String?,
 
-    val fuelType: String,
+    @Column(nullable = true)
+    var fuelType: String?,
 
-    val steeringPosition: String,
+    @Column(nullable = true)
+    var steeringPosition: String?,
+
+    @Column(nullable = true)
+    var driveType: String?,
 
     @field:Min(0)
+    @Column(nullable = false)
     var ownerCount: Int,
 
-    var phone: String,
+    @Column(nullable = true)
+    var phone: String?,
 
-    var region: String,
+    @Column(nullable = true)
+    var region: String?,
 
-    var city: String,
+    @Column(nullable = true)
+    var city: String?,
 
-    val imageUrls: MutableList<String> = mutableListOf(),
+    var imageUrls: MutableList<String> = mutableListOf(),
 
     var features: MutableList<String> = mutableListOf(),
 

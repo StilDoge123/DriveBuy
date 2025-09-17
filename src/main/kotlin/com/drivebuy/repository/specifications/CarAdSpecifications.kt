@@ -101,17 +101,35 @@ class CarAdSpecifications {
 
         // Condition
         fun withConditions(conditions: List<String>?): Specification<CarAdEntity> = Specification { root, _, cb ->
-            conditions?.takeIf { it.isNotEmpty() }?.let {
-                val conditionsJoin = root.join<CarAdEntity, CarConditionEntity>("conditions")
-                conditionsJoin.get<String>("conditionName").`in`(it)
+            conditions?.takeIf { it.isNotEmpty() }?.let { conditionList ->
+                // Since condition is stored as a simple string field, check if it matches any of the provided conditions
+                val conditionPredicates = conditionList.map { condition ->
+                    cb.equal(root.get<String>("condition"), condition)
+                }
+                if (conditionPredicates.size == 1) {
+                    conditionPredicates[0]
+                } else {
+                    cb.or(*conditionPredicates.toTypedArray())
+                }
             } ?: cb.conjunction()
         }
 
         // Feature
-        fun withFeatures(features: List<String>?): Specification<CarAdEntity> = Specification { root, _, cb ->
-            features?.takeIf { it.isNotEmpty() }?.let {
-                val featuresJoin = root.join<CarAdEntity, CarFeaturesEntity>("features")
-                featuresJoin.get<String>("featureName").`in`(it)
+        fun withFeatures(features: List<String>?): Specification<CarAdEntity> = Specification { root, query, cb ->
+            features?.takeIf { it.isNotEmpty() }?.let { featureList ->
+                // For PostgreSQL, we can use the array contains operator @> or use string conversion
+                // Using a simple string representation approach that works across databases
+                val featurePredicates = featureList.map { feature ->
+                    cb.like(
+                        root.get<String>("features").`as`(String::class.java),
+                        "%$feature%"
+                    )
+                }
+                if (featurePredicates.size == 1) {
+                    featurePredicates[0]
+                } else {
+                    cb.or(*featurePredicates.toTypedArray())
+                }
             } ?: cb.conjunction()
         }
 
@@ -142,6 +160,10 @@ class CarAdSpecifications {
             steeringPosition?.let { cb.equal(root.get<String>("steeringPosition"), it) } ?: cb.conjunction()
         }
 
+        fun withDriveType(driveType: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
+            driveType?.let { cb.equal(root.get<String>("driveType"), it) } ?: cb.conjunction()
+        }
+
         fun withKeyword(keyword: String?): Specification<CarAdEntity> = Specification { root, _, cb ->
             keyword?.let { searchTerm ->
                 val searchPattern = "%${searchTerm.lowercase()}%"
@@ -157,7 +179,8 @@ class CarAdSpecifications {
                     cb.like(cb.lower(root.get("fuelType")), searchPattern),
                     cb.like(cb.lower(root.get("bodyType")), searchPattern),
                     cb.like(cb.lower(root.get("condition")), searchPattern),
-                    cb.like(cb.lower(root.get("features")), searchPattern)
+                    cb.like(cb.lower(root.get("driveType")), searchPattern)
+                    // Note: removed features from keyword search since it's a list, not a searchable string field
                 )
             } ?: cb.conjunction()
         }

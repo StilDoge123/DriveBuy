@@ -28,31 +28,6 @@ class AdService(
         }
 
         val imageUrls = request.images.map { storageService.uploadAdImage(it) }
-        //val features = featureRepository.findByFeatureNameIn(request.features)
-
-        println("""
-    userId = ${user.firebaseId},
-    make = ${request.make},
-    model = ${request.model},
-    title = ${request.title},
-    description = ${request.description},
-    year = ${request.year},
-    color = ${request.color},
-    hp = ${request.hp},
-    bodyType = ${request.bodyType},
-    condition = ${request.condition},
-    displacement = ${request.displacement},
-    mileage = ${request.mileage},
-    price = ${request.price},
-    doorCount = ${request.doorCount},
-    cylinderCount = ${request.cylinderCount},
-    ownerCount = ${request.ownerCount},
-    phone = ${request.phone},
-    region = ${request.region},
-    city = ${request.city},
-    imageUrls = ${imageUrls.toMutableList()},
-    features = ${request.features.toMutableList()}
-""".trimIndent())
         return adRepository.save(CarAdEntity(
             userId = user.firebaseId,
             make = request.make,
@@ -72,6 +47,7 @@ class AdService(
             transmissionType = request.transmissionType,
             fuelType = request.fuelType,
             steeringPosition = request.steeringPosition,
+            driveType = request.driveType,
             ownerCount = request.ownerCount,
             phone = request.phone,
             region = request.region,
@@ -105,6 +81,13 @@ class AdService(
         request.mileage?.let { ad.mileage = it }
         request.price?.let { ad.price = it }
         request.doorCount?.let { ad.doorCount = it }
+        request.cylinderCount?.let { ad.cylinderCount = it }
+        request.transmissionType?.let { ad.transmissionType = it }
+        request.fuelType?.let { ad.fuelType = it }
+        request.steeringPosition?.let { ad.steeringPosition = it }
+        request.driveType?.let { ad.driveType = it }
+        request.bodyType?.let { ad.bodyType = it }
+        request.condition?.let { ad.condition = it }
         request.ownerCount?.let { ad.ownerCount = it }
         request.phone?.let { ad.phone = it }
         request.region?.let { ad.region = it }
@@ -194,6 +177,8 @@ class AdService(
             CarAdSpecifications.withFuelType(filters.fuelType)
         ).and(
             CarAdSpecifications.withSteeringPosition(filters.steeringPosition)
+        ).and(
+            CarAdSpecifications.withDriveType(filters.driveType)
         )
 
         // Apply sorting if specified
