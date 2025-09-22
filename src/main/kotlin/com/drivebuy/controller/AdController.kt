@@ -36,9 +36,9 @@ class AdController(
     @PatchMapping(path = ["/{id}"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun updateAd(
         @PathVariable id: Long,
-        @RequestPart("data") requestJson: String,
+        @RequestParam("data") requestJson: String,
         @RequestPart(value = "newImages", required = false) newImages: List<MultipartFile>?,
-        @RequestPart(value = "imagesToDelete", required = false) imagesToDelete: List<String>?,
+        @RequestParam(value = "imagesToDelete", required = false) imagesToDelete: List<String>?,
         request: HttpServletRequest
     ): CarAdEntity {
         val uid = getUidFromRequest(request)

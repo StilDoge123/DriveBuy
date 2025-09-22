@@ -23,4 +23,8 @@ interface MessageRepository : JpaRepository<MessageEntity, Long> {
     fun countTotalUnreadMessagesByUserId(@Param("userId") userId: String): Long
     
     fun findTop1ByChatIdOrderByTimestampDesc(chatId: Long): MessageEntity?
+    
+    fun deleteAllByChatId(chatId: Long)
+    
+    fun deleteAllByChatIdIn(chatIds: List<Long>)
 }

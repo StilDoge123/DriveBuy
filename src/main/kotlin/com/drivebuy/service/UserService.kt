@@ -90,15 +90,19 @@ class UserService(
 
     fun createFirebaseUser(email: String, password: String, name: String, phone: String): UserRecord {
         return try {
-            FirebaseAuth.getInstance().createUser(
-                UserRecord.CreateRequest()
-                    .setEmail(email)
-                    .setPassword(password)
-                    .setDisplayName(name)
-                    .setPhoneNumber(phone)
-                    .setEmailVerified(false)
-                    .setDisabled(false)
-            )
+            val createRequest = UserRecord.CreateRequest()
+                .setEmail(email)
+                .setPassword(password)
+                .setDisplayName(name)
+                .setEmailVerified(false)
+                .setDisabled(false)
+
+            // Only set phone in Firebase if already E.164 compliant to avoid IllegalArgumentException
+            if (phone.isNotBlank() && phone.matches(Regex("^\\+[1-9]\\d{1,14}$"))) {
+                createRequest.setPhoneNumber(phone)
+            }
+
+            FirebaseAuth.getInstance().createUser(createRequest)
         } catch (e: FirebaseAuthException) {
             when (e.message) {
                 "email-already-exists" -> throw EmailAlreadyExistsException("Email $email already registered")

@@ -17,6 +17,10 @@ interface ChatRepository : JpaRepository<ChatEntity, Long> {
     
     fun findBySellerId(sellerId: String): List<ChatEntity>
     
+    fun findByAdId(adId: Long): List<ChatEntity>
+    
+    fun deleteAllByAdId(adId: Long)
+    
     @Query("SELECT c FROM ChatEntity c WHERE c.adId = :adId AND (c.buyerId = :userId OR c.sellerId = :userId)")
     fun findByAdIdAndUserId(@Param("adId") adId: Long, @Param("userId") userId: String): List<ChatEntity>
     

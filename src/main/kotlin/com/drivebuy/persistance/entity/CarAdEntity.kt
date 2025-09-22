@@ -88,8 +88,14 @@ data class CarAdEntity(
     @Column(nullable = true)
     var city: String?,
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "ad_images", joinColumns = [JoinColumn(name = "ad_id")])
+    @Column(name = "image_url")
     var imageUrls: MutableList<String> = mutableListOf(),
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "ad_features", joinColumns = [JoinColumn(name = "ad_id")])
+    @Column(name = "feature")
     var features: MutableList<String> = mutableListOf(),
 
     @Column(name = "created_at")

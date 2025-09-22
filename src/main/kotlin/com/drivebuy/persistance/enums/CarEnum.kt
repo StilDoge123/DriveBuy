@@ -28,7 +28,7 @@ enum class CarBrand (val brandName: String, val models: List<String>){
         "A7", "A8", "Allroad", "Cabriolet", "Coupe", "E-Tron", "E-Tron GT",
         "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Quattro", "R8", "RSQ3",
         "RSQ8", "RS2", "RS3", "RS4", "RS5", "RS6", "RS7", "S1", "S2", "S3", "S4",
-        "S5", "S6", "S7", "S8", "SQ5", "SQ7", "SQ8", "Tt"
+        "S5", "S6", "S7", "S8", "SQ5", "SQ7", "SQ8", "Tt", "80", "90", "100", "200"
     )),
     BENTLEY("Bentley", listOf(
         "Arnage", "Azure", "Bentayga", "Continental",
