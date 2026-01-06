@@ -31,11 +31,10 @@ class WebSocketAuthInterceptor : ChannelInterceptor {
                         }
                     } catch (e: Exception) {
                         println("WebSocket authentication failed: ${e.message}")
-                        return null // Reject the connection
+                        return null
                     }
                 }
                 else -> {
-                    // For other commands, check if user is authenticated
                     if (accessor.user == null) {
                         println("WebSocket command ${accessor.command} rejected: user not authenticated")
                         return null

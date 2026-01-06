@@ -180,7 +180,6 @@ class CarAdSpecifications {
                     cb.like(cb.lower(root.get("bodyType")), searchPattern),
                     cb.like(cb.lower(root.get("condition")), searchPattern),
                     cb.like(cb.lower(root.get("driveType")), searchPattern)
-                    // Note: removed features from keyword search since it's a list, not a searchable string field
                 )
             } ?: cb.conjunction()
         }

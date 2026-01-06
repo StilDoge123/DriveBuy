@@ -98,7 +98,6 @@ class AdService(
         request.city?.let { ad.city = it }
         request.features?.let { ad.features = it.toMutableList() }
 
-        // Remove selected images from this ad (ad_images table) and delete storage objects
         if (request.imagesToDelete.isNotEmpty()) {
             request.imagesToDelete.forEach { imageUrl ->
                 val references = adRepository.countOtherAdsReferencingImage(imageUrl, ad.id)
@@ -109,7 +108,6 @@ class AdService(
             ad.imageUrls.removeAll(request.imagesToDelete.toSet())
         }
 
-        // Upload any newly attached images and append their URLs
         val newUrls = request.newImages.map { storageService.uploadAdImage(it) }
         ad.imageUrls.addAll(newUrls)
 
@@ -130,20 +128,16 @@ class AdService(
             throw RuntimeException("You are not authorized to modify this ad")
         }
 
-        // Remove saved-ad links (user_saved_ads join table)
         userRepository.deleteSavedAdLinksByAdId(id)
 
-        // Delete messages for chats that belong to this ad
         val chats = chatRepository.findByAdId(id)
         if (chats.isNotEmpty()) {
             val chatIds = chats.map { it.id }
             messageRepository.deleteAllByChatIdIn(chatIds)
         }
 
-        // Delete chats for this ad
         chatRepository.deleteAllByAdId(id)
 
-        // Delete Firebase files and clear element collections, then persist the empty lists
         val existingImages = ad.imageUrls?.toList() ?: emptyList()
         existingImages.forEach { imageUrl ->
             val references = adRepository.countOtherAdsReferencingImage(imageUrl, id)
@@ -155,7 +149,6 @@ class AdService(
         ad.features.clear()
         adRepository.saveAndFlush(ad)
 
-        // Finally delete the ad itself
         return adRepository.delete(ad)
     }
 
@@ -222,14 +215,13 @@ class AdService(
             CarAdSpecifications.withDriveType(filters.driveType)
         )
 
-        // Apply sorting if specified
         val sort = filters.sortBy?.let { sortOption ->
             if (sortOption.isAscending()) {
                 Sort.by(Sort.Direction.ASC, sortOption.fieldName)
             } else {
                 Sort.by(Sort.Direction.DESC, sortOption.fieldName)
             }
-        } ?: Sort.by(Sort.Direction.DESC, "createdAt") // Default sort by newest first
+        } ?: Sort.by(Sort.Direction.DESC, "createdAt")
 
         return adRepository.findAll(specification, sort)
     }
@@ -237,14 +229,11 @@ class AdService(
     fun getFilteredAdsWithUserInfo(filters: CarAdFilters): List<CarAdDto> {
         val ads = getFilteredAds(filters)
         
-        // Get all unique user IDs from the ads
         val userIds = ads.map { it.userId }.distinct()
         
-        // Fetch all users in one query
         val users = userRepository.findAllById(userIds)
         val userMap = users.associateBy { it.firebaseId }
         
-        // Convert to CarAdDto with user info
         return CarAdDto.fromEntities(ads, userMap)
     }
 }

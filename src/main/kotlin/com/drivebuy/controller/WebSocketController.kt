@@ -22,13 +22,11 @@ class WebSocketController(
             val userId = AuthUtil.getUidFromHeaderAccessor(headerAccessor)
             val chatId = (data["chatId"] as Number).toLong()
             
-            // Validate user has access to this chat
             chatService.getChatById(chatId, userId)
             headerAccessor.sessionAttributes?.put("userId", userId)
             headerAccessor.sessionAttributes?.put("chatId", chatId)
             println("User $userId joined chat $chatId")
         } catch (e: Exception) {
-            // User doesn't have access to this chat or authentication failed
             println("WebSocket join failed: ${e.message}")
         }
     }
@@ -36,7 +34,6 @@ class WebSocketController(
     @MessageMapping("/chat.leave")
     fun leaveChat(headerAccessor: SimpMessageHeaderAccessor) {
         try {
-            // Optional: validate user before leaving
             val userId = AuthUtil.getUidFromHeaderAccessor(headerAccessor)
             headerAccessor.sessionAttributes?.remove("chatId")
             println("User $userId left chat")
@@ -60,7 +57,6 @@ class WebSocketController(
                 return null
             }
             
-            // Send message through the service (this will save to DB and send notifications)
             val message = chatService.sendMessage(chatId, senderId, content)
             println("Message sent via WebSocket: ${message.id} in chat $chatId")
             return message

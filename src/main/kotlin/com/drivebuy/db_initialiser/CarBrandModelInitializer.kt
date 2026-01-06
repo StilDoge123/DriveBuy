@@ -32,7 +32,6 @@ class CarBrandInitializer(
         // Delete brands that exist in repo but not in enum
         repoBrands.forEach { repoBrand ->
             if (!enumBrandNames.contains(repoBrand.brandName)) {
-                // Delete within the same transaction
                 modelRepository.deleteAllByBrandId(repoBrand.id)
                 brandRepository.delete(repoBrand)
             }
