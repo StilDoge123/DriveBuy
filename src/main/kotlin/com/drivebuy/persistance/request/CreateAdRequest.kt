@@ -21,7 +21,7 @@ data class CreateAdRequest(
     
     @field:NotNull(message = "Year is required")
     @field:Min(value = 1900, message = "Year must be at least 1900")
-    @field:Max(value = 2024, message = "Year cannot be in the future")
+    @field:Max(value = 2026, message = "Year cannot be in the future")
     val year: Int,
     
     val color: String? = null,
