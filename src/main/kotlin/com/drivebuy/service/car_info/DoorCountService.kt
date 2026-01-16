@@ -18,4 +18,19 @@ class DoorCountService(private val doorCountRepository: DoorCountRepository) {
     fun getAllDoorCounts(): List<DoorCountEntity?> {
         return doorCountRepository.findAll()
     }
+
+    fun updateDoorCount(id: Long, count: String): DoorCountEntity {
+        val doorCount = doorCountRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Door count not found") }
+
+        doorCount.doorCount = count
+        return doorCountRepository.save(doorCount)
+    }
+
+    fun deleteDoorCount(id: Long) {
+        val doorCount = doorCountRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Door count not found") }
+
+        doorCountRepository.delete(doorCount)
+    }
 }

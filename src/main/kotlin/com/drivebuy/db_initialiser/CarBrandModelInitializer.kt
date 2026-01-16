@@ -17,7 +17,8 @@ class CarBrandInitializer(
     private val modelRepository: CarModelRepository,
     private val transactionTemplate: TransactionTemplate
 ) {
-    @PostConstruct
+    // Disabled - using Flyway migrations instead
+    // @PostConstruct
     fun init() {
         transactionTemplate.execute {
             initializeBrandsAndModels()

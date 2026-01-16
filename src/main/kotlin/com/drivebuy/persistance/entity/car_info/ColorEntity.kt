@@ -8,5 +8,6 @@ class ColorEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val colorName: String
+    @Column(unique = true)
+    var colorName: String
 )

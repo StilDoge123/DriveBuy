@@ -18,4 +18,19 @@ class SteeringPositionService(private val steeringPositionRepository: SteeringPo
     fun getAllSteeringPositions(): List<SteeringPositionEntity?> {
         return steeringPositionRepository.findAll()
     }
+
+    fun updateSteeringPosition(id: Long, name: String): SteeringPositionEntity {
+        val steeringPosition = steeringPositionRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Steering position not found") }
+
+        steeringPosition.steeringPositionName = name
+        return steeringPositionRepository.save(steeringPosition)
+    }
+
+    fun deleteSteeringPosition(id: Long) {
+        val steeringPosition = steeringPositionRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Steering position not found") }
+
+        steeringPositionRepository.delete(steeringPosition)
+    }
 }

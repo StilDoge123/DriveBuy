@@ -18,4 +18,19 @@ class DriveTypeService(private val driveTypeRepository: DriveTypeRepository) {
     fun getAllDriveTypes(): List<DriveTypeEntity?> {
         return driveTypeRepository.findAll()
     }
+
+    fun updateDriveType(id: Long, name: String): DriveTypeEntity {
+        val driveType = driveTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Drive type not found") }
+
+        driveType.driveTypeName = name
+        return driveTypeRepository.save(driveType)
+    }
+
+    fun deleteDriveType(id: Long) {
+        val driveType = driveTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Drive type not found") }
+
+        driveTypeRepository.delete(driveType)
+    }
 }

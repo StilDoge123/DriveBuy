@@ -1,8 +1,10 @@
 package com.drivebuy.service.car_info
 
+import com.drivebuy.persistance.entity.car_info.BodyTypeEntity
 import com.drivebuy.persistance.entity.car_info.CarConditionEntity
 import com.drivebuy.repository.car_info.CarConditionRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CarConditionService(private val carConditionRepository: CarConditionRepository) {
@@ -16,5 +18,20 @@ class CarConditionService(private val carConditionRepository: CarConditionReposi
 
     fun getAllCarConditions(): List<CarConditionEntity?> {
         return carConditionRepository.findAll()
+    }
+
+    fun updateCarCondition(id: Long, name: String): CarConditionEntity {
+        val carCondition = carConditionRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Car condition with id $id not found") }
+
+        carCondition.conditionName = name
+        return carConditionRepository.save(carCondition)
+    }
+
+    fun deleteCarCondition(id: Long) {
+        val carCondition = carConditionRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Car condition with id $id not found") }
+
+        carConditionRepository.delete(carCondition)
     }
 }

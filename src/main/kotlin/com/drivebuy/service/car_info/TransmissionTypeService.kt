@@ -18,4 +18,19 @@ class TransmissionTypeService(private val transmissionTypeRepository: Transmissi
     fun getAllTransmissionTypes(): List<TransmissionTypeEntity?> {
         return transmissionTypeRepository.findAll()
     }
+
+    fun updateTransmissionType(id: Long, name: String): TransmissionTypeEntity {
+        val transmissionType = transmissionTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Transmission type not found") }
+
+        transmissionType.transmissionTypeName = name
+        return transmissionTypeRepository.save(transmissionType)
+    }
+
+    fun deleteTransmissionType(id: Long) {
+        val transmissionType = transmissionTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Transmission type not found") }
+
+        transmissionTypeRepository.delete(transmissionType)
+    }
 }

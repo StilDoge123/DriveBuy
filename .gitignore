@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 /src/main/resources/firebase-service-account.json
+/src/main/resources/apiKeyGeneration
 
 ### STS ###
 .apt_generated

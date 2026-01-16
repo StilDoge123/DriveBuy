@@ -20,7 +20,8 @@ class CarInfoInitializer(
     private val steeringPositionRepository: SteeringPositionRepository,
     private val transmissionTypeRepository: TransmissionTypeRepository
 ) {
-    @PostConstruct
+    // Disabled - using Flyway migrations instead
+    // @PostConstruct
     @Transactional
     fun init() {
         // Body Types

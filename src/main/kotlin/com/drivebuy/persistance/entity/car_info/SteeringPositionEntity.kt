@@ -8,5 +8,6 @@ class SteeringPositionEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val steeringPositionName: String
+    @Column(unique = true)
+    var steeringPositionName: String
 )

@@ -8,5 +8,6 @@ class TransmissionTypeEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val transmissionTypeName: String
+    @Column(unique = true)
+    var transmissionTypeName: String
 )

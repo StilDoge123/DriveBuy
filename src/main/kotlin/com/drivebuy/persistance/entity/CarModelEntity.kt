@@ -11,8 +11,8 @@ data class CarModelEntity(
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    val brand: CarBrandEntity,
+    var brand: CarBrandEntity,
 
     @Column(nullable = false)
-    val modelName: String
+    var modelName: String
 )

@@ -10,5 +10,5 @@ data class CarBrandEntity(
     val id: Long = 0,
 
     @Column(nullable = false, unique = true)
-    val brandName: String
+    var brandName: String
 )

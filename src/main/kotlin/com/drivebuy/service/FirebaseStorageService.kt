@@ -21,7 +21,7 @@ class FirebaseStorageService(
             .setContentType(file.contentType)
             .setMetadata(mapOf("firebaseStorageDownloadTokens" to token))
             .build()
-        val blob = bucket.storage.create(blobInfo, file.bytes)
+        bucket.storage.create(blobInfo, file.bytes)
         return getPublicUrl(filename, token)
     }
 

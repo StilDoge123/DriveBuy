@@ -8,5 +8,6 @@ class CylinderCountEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val cylinderCount: String
+    @Column(unique = true)
+    var cylinderCount: String
 )

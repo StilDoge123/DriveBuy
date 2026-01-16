@@ -8,5 +8,6 @@ class FuelTypeEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val fuelTypeName: String
+    @Column(unique = true)
+    var fuelTypeName: String
 )

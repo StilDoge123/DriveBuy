@@ -22,4 +22,5 @@ interface CityRepository : JpaRepository<City, Long> {
     fun findByCityNameContainingIgnoreCase(cityName: String): List<City>
     fun findAllByRegionId(regionId: Long): List<City>
     fun deleteAllByRegionId(regionId: Long)
+    fun findByRegionIdAndCityName(regionId: Long, cityName: String): City?
 }

@@ -16,8 +16,8 @@ data class Region(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column(name = "region_name", nullable = false)
-    val regionName: String
+    @Column(name = "region_name", nullable = false, unique = true)
+    var regionName: String
 )
 
 @Entity
@@ -27,6 +27,6 @@ data class City(
     val id: Long? = null,
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
-    val region: Region,
-    val cityName: String
+    var region: Region,
+    var cityName: String
 )

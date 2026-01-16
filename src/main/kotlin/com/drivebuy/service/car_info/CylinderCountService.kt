@@ -18,4 +18,19 @@ class CylinderCountService(private val cylinderCountRepository: CylinderCountRep
     fun getAllCylinderCounts(): List<CylinderCountEntity?> {
         return cylinderCountRepository.findAll()
     }
+
+    fun updateCylinderCount(id: Long, count: String): CylinderCountEntity {
+        val cylinderCount = cylinderCountRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Cylinder count not found") }
+
+        cylinderCount.cylinderCount = count
+        return cylinderCountRepository.save(cylinderCount)
+    }
+
+    fun deleteCylinderCount(id: Long) {
+        val cylinderCount = cylinderCountRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Cylinder count not found") }
+
+        cylinderCountRepository.delete(cylinderCount)
+    }
 }

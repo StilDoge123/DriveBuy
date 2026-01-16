@@ -138,7 +138,7 @@ class AdService(
 
         chatRepository.deleteAllByAdId(id)
 
-        val existingImages = ad.imageUrls?.toList() ?: emptyList()
+        val existingImages = ad.imageUrls.toList()
         existingImages.forEach { imageUrl ->
             val references = adRepository.countOtherAdsReferencingImage(imageUrl, id)
             if (references == 0L) {

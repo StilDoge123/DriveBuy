@@ -1,11 +1,9 @@
 package com.drivebuy.controller
 
 import com.drivebuy.persistance.entity.CarBrandEntity
+import com.drivebuy.security.RequiresApiKey
 import com.drivebuy.service.CarBrandService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/brands")
@@ -23,5 +21,25 @@ class CarBrandController(private val carBrandService: CarBrandService) {
     @GetMapping
     fun getAllBrands(): List<CarBrandEntity?> {
         return carBrandService.getAllBrands()
+    }
+
+    @RequiresApiKey
+    @PostMapping("/create")
+    fun createCarBrand(@RequestParam brandName: String): CarBrandEntity {
+        return carBrandService.createCarBrand(brandName)
+    }
+
+    @RequiresApiKey
+    @PutMapping("/update/{brandId}")
+    fun updateCarBrand(
+        @PathVariable brandId: Long,
+        @RequestParam brandName: String): CarBrandEntity {
+        return carBrandService.updateCarBrand(brandId, brandName)
+    }
+
+    @RequiresApiKey
+    @DeleteMapping("/delete/{brandId}")
+    fun deleteCarBrand(@PathVariable brandId: Long) {
+        carBrandService.deleteCarBrand(brandId)
     }
 }

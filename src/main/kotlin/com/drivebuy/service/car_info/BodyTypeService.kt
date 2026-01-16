@@ -17,4 +17,19 @@ class BodyTypeService(private val bodyTypeRepository: BodyTypeRepository) {
     fun getAllBodyTypes(): List<BodyTypeEntity?> {
         return bodyTypeRepository.findAll()
     }
+
+    fun updateBodyType(id: Long, name: String): BodyTypeEntity {
+        val bodyType = bodyTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Body type not found") }
+
+        bodyType.bodyTypeName = name
+        return bodyTypeRepository.save(bodyType)
+    }
+
+    fun deleteBodyType(id: Long) {
+        val bodyType = bodyTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Body type not found") }
+
+        bodyTypeRepository.delete(bodyType)
+    }
 }

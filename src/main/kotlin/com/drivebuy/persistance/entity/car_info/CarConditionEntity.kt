@@ -8,5 +8,6 @@ data class CarConditionEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val conditionName: String
+    @Column(unique = true)
+    var conditionName: String
 )

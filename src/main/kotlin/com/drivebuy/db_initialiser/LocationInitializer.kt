@@ -16,7 +16,8 @@ class LocationInitializer(
     private val cityRepository: CityRepository,
     private val transactionTemplate: TransactionTemplate
 ) {
-    @PostConstruct
+    // Disabled - using Flyway migrations instead
+    // @PostConstruct
     fun init() {
         transactionTemplate.executeWithoutResult {
             initializeRegionsAndCities()

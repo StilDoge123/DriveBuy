@@ -18,4 +18,19 @@ class ColorService(private val colorRepository: ColorRepository) {
     fun getAllColors(): List<ColorEntity?> {
         return colorRepository.findAll()
     }
+
+    fun updateColor(id: Long, name: String): ColorEntity {
+        val color = colorRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Color not found") }
+
+        color.colorName = name
+        return colorRepository.save(color)
+    }
+
+    fun deleteColor(id: Long) {
+        val color = colorRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Color not found") }
+
+        colorRepository.delete(color)
+    }
 }

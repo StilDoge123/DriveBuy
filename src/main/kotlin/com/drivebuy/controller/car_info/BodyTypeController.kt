@@ -1,6 +1,7 @@
 package com.drivebuy.controller.car_info
 
 import com.drivebuy.persistance.entity.car_info.BodyTypeEntity
+import com.drivebuy.security.RequiresApiKey
 import com.drivebuy.service.car_info.BodyTypeService
 import org.springframework.web.bind.annotation.*
 
@@ -20,5 +21,19 @@ class BodyTypeController(private val bodyTypeService: BodyTypeService) {
     @GetMapping
     fun getAllBodyTypes(): List<BodyTypeEntity?> {
         return bodyTypeService.getAllBodyTypes()
+    }
+
+    @RequiresApiKey
+    @PutMapping("/update/{bodyTypeId}")
+    fun updateBodyType(
+        @PathVariable bodyTypeId: Long,
+        @RequestParam bodyTypeName: String): BodyTypeEntity {
+        return bodyTypeService.updateBodyType(bodyTypeId, bodyTypeName)
+    }
+
+    @RequiresApiKey
+    @DeleteMapping("/delete/{bodyTypeId}")
+    fun deleteBodyType(@PathVariable bodyTypeId: Long) {
+        bodyTypeService.deleteBodyType(bodyTypeId)
     }
 }

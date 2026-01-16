@@ -18,4 +18,19 @@ class CarFeaturesService(private val carFeaturesRepository: CarFeaturesRepositor
     fun getAllCarFeatures(): List<CarFeaturesEntity?> {
         return carFeaturesRepository.findAll()
     }
+
+    fun updateCarFeature(id: Long, name: String): CarFeaturesEntity {
+        val carFeature = carFeaturesRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Car feature not found") }
+
+        carFeature.featureName = name
+        return carFeaturesRepository.save(carFeature)
+    }
+
+    fun deleteCarFeature(id: Long) {
+        val carFeature = carFeaturesRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Car feature not found") }
+
+        carFeaturesRepository.delete(carFeature)
+    }
 }

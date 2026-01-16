@@ -1,6 +1,7 @@
 package com.drivebuy.controller.car_info
 
 import com.drivebuy.persistance.entity.car_info.FuelTypeEntity
+import com.drivebuy.security.RequiresApiKey
 import com.drivebuy.service.car_info.FuelTypeService
 import org.springframework.web.bind.annotation.*
 
@@ -21,5 +22,19 @@ class FuelTypeController(private val fuelTypeService: FuelTypeService) {
     @GetMapping
     fun getAllFuelTypes(): List<FuelTypeEntity?> {
         return fuelTypeService.getAllFuelTypes()
+    }
+
+    @RequiresApiKey
+    @PutMapping("/update/{fuelTypeId}")
+    fun updateFuelType(
+        @PathVariable fuelTypeId: Long,
+        @RequestParam fuelTypeName: String): FuelTypeEntity {
+        return fuelTypeService.updateFuelType(fuelTypeId, fuelTypeName)
+    }
+
+    @RequiresApiKey
+    @DeleteMapping("/delete/{fuelTypeId}")
+    fun deleteFuelType(@PathVariable fuelTypeId: Long) {
+        fuelTypeService.deleteFuelType(fuelTypeId)
     }
 }

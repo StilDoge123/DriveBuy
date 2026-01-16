@@ -9,5 +9,6 @@ data class BodyTypeEntity (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val bodyTypeName: String
+    @Column(unique = true)
+    var bodyTypeName: String
 )

@@ -18,4 +18,19 @@ class FuelTypeService(private val fuelTypeRepository: FuelTypeRepository) {
     fun getAllFuelTypes(): List<FuelTypeEntity?> {
         return fuelTypeRepository.findAll()
     }
+
+    fun updateFuelType(id: Long, name: String): FuelTypeEntity {
+        val fuelType = fuelTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Fuel type not found") }
+
+        fuelType.fuelTypeName = name
+        return fuelTypeRepository.save(fuelType)
+    }
+
+    fun deleteFuelType(id: Long) {
+        val fuelType = fuelTypeRepository.findById(id)
+            .orElseThrow { NoSuchElementException("Fuel type not found") }
+
+        fuelTypeRepository.delete(fuelType)
+    }
 }

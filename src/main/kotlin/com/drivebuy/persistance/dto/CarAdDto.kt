@@ -61,8 +61,8 @@ data class CarAdDto(
                 phone = ad.phone,
                 region = ad.region,
                 city = ad.city,
-                imageUrls = ad.imageUrls?.toList() ?: emptyList(),
-                features = ad.features?.toList() ?: emptyList(),
+                imageUrls = ad.imageUrls.toList(),
+                features = ad.features.toList(),
                 createdAt = ad.createdAt,
                 seller = UserResponse.fromEntity(seller)
             )

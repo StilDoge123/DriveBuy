@@ -12,4 +12,6 @@ interface CarModelRepository : JpaRepository<CarModelEntity, Long> {
     fun findAllByBrandId(id: Long): List<CarModelEntity>
 
     fun deleteAllByBrandId(brandId: Long)
+
+    fun findByBrandIdAndModelName(brandId: Long, modelName: String): CarModelEntity?
 }

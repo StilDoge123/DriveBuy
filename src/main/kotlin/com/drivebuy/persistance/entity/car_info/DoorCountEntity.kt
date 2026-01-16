@@ -8,5 +8,6 @@ class DoorCountEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val doorCount: String
+    @Column(unique = true)
+    var doorCount: String
 )
