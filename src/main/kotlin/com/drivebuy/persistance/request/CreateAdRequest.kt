@@ -21,7 +21,6 @@ data class CreateAdRequest(
     
     @field:NotNull(message = "Year is required")
     @field:Min(value = 1900, message = "Year must be at least 1900")
-    @field:Max(value = 2026, message = "Year cannot be in the future")
     val year: Int,
     
     val color: String? = null,
@@ -62,4 +61,11 @@ data class CreateAdRequest(
     val city: String? = null,
     val features: List<String> = emptyList(),
     val images: List<MultipartFile> = emptyList()
-)
+) {
+    init {
+        val currentYear = java.time.Year.now().value
+        require(year in 1900..currentYear) {
+            "Year must be between 1900 and $currentYear"
+        }
+    }
+}

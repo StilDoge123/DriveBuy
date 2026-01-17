@@ -29,4 +29,13 @@ data class UpdateAdRequest(
     val features: List<String>? = null,
     val newImages: List<MultipartFile> = emptyList(),
     val imagesToDelete: List<String> = emptyList()
-)
+) {
+    init {
+        year?.let {
+            val currentYear = java.time.Year.now().value
+            require(it in 1900..currentYear) {
+                "Year must be between 1900 and $currentYear"
+            }
+        }
+    }
+}

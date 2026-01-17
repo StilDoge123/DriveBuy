@@ -100,11 +100,4 @@ data class CarAdEntity(
 
     @Column(name = "created_at")
     val createdAt: LocalDateTime = LocalDateTime.now()
-) {
-    init {
-        val currentYear = java.time.Year.now().value
-        require(year in 1900..currentYear) {
-            "Year must be between 1900 and $currentYear"
-        }
-    }
-}
+)
