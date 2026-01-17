@@ -34,25 +34,6 @@ class UserService(
         }
     }
 
-    fun createUser(registerDto: RegisterUserDTO): UserEntity {
-        val firebaseUser = createFirebaseUser(
-            registerDto.email,
-            registerDto.password,
-            registerDto.name,
-            registerDto.phone
-        )
-
-        return userRepository.save(
-            UserEntity(
-                firebaseId = firebaseUser.uid,
-                name = registerDto.name,
-                email = registerDto.email,
-                phone = registerDto.phone,
-                savedAds = mutableListOf()
-            )
-        )
-    }
-
     fun registerUser(registerUserDTO: RegisterUserDTO): UserResponse {
         val firebaseUser = try {
             createFirebaseUser(

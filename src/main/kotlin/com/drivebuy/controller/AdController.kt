@@ -7,8 +7,8 @@ import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.request.CreateAdRequest
 import com.drivebuy.persistance.request.UpdateAdRequest
 import com.drivebuy.service.AdService
+import com.drivebuy.util.AuthUtil.getUidFromRequest
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.firebase.auth.FirebaseAuth
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -57,17 +57,6 @@ class AdController(
     ) {
         val uid = getUidFromRequest(request)
         return adService.deleteAd(id, uid)
-    }
-
-    fun getUidFromRequest(request: HttpServletRequest): String {
-        val authHeader = request.getHeader("Authorization")
-            ?: throw RuntimeException("Missing Authorization header")
-        if (!authHeader.startsWith("Bearer ")) {
-            throw RuntimeException("Invalid Authorization header")
-        }
-        val idToken = authHeader.removePrefix("Bearer ").trim()
-        val decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken)
-        return decodedToken.uid
     }
 
     @GetMapping("/{id}")
