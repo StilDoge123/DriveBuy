@@ -1,5 +1,6 @@
 package com.drivebuy.config
 
+import com.drivebuy.exception.ConfigurationException
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
@@ -35,7 +36,7 @@ class FirebaseConfig {
                     .build()
             }
         } catch (e: IOException) {
-            throw RuntimeException("Failed to initialize Firebase", e)
+            throw ConfigurationException("Failed to initialize Firebase", e)
         }
 
         return FirebaseApp.getApps().firstOrNull() ?: FirebaseApp.initializeApp(options)

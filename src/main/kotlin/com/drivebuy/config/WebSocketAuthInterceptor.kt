@@ -1,5 +1,6 @@
 package com.drivebuy.config
 
+import com.drivebuy.exception.AuthenticationException
 import com.drivebuy.util.AuthUtil
 import org.springframework.messaging.Message
 import org.springframework.messaging.MessageChannel
@@ -27,7 +28,7 @@ class WebSocketAuthInterceptor : ChannelInterceptor {
                                 override fun getName(): String = userId
                             }
                         } else {
-                            throw RuntimeException("Missing or invalid Authorization header")
+                            throw AuthenticationException("Missing or invalid Authorization header")
                         }
                     } catch (e: Exception) {
                         println("WebSocket authentication failed: ${e.message}")

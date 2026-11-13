@@ -1,5 +1,6 @@
 package com.drivebuy.controller
 
+import com.drivebuy.exception.UnauthorizedException
 import com.drivebuy.persistance.dto.RegisterUserDTO
 import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.entity.UserEntity
@@ -52,7 +53,7 @@ class UserController(private val userService: UserService) {
         request: HttpServletRequest
     ): UserResponse {
         val uid = AuthUtil.getUidFromRequest(request)
-        if (uid != userId) throw RuntimeException("Unauthorized")
+        if (uid != userId) throw UnauthorizedException("You are not authorized to update this user")
         val updatedUser = userService.updateUser(userId, updateUserRequest)
         return UserResponse.fromEntity(updatedUser)
     }
@@ -64,7 +65,7 @@ class UserController(private val userService: UserService) {
         request: HttpServletRequest
     ) : List<CarAdEntity> {
         val uid = AuthUtil.getUidFromRequest(request)
-        if (uid != userId) throw RuntimeException("Unauthorized")
+        if (uid != userId) throw UnauthorizedException("You are not authorized to save ads for this user")
 
         return userService.saveAd(userId, adId)
     }
@@ -76,7 +77,7 @@ class UserController(private val userService: UserService) {
         request: HttpServletRequest
     ) : List<CarAdEntity> {
         val uid = AuthUtil.getUidFromRequest(request)
-        if (uid != userId) throw RuntimeException("Unauthorized")
+        if (uid != userId) throw UnauthorizedException("You are not authorized to remove saved ads for this user")
 
         return userService.removeSavedAd(userId, adId)
     }
@@ -87,7 +88,7 @@ class UserController(private val userService: UserService) {
         request: HttpServletRequest
     ): List<CarAdEntity> {
         val uid = AuthUtil.getUidFromRequest(request)
-        if (uid != userId) throw RuntimeException("Unauthorized")
+        if (uid != userId) throw UnauthorizedException("You are not authorized to view saved ads for this user")
 
         return userService.getSavedAds(userId)
     }

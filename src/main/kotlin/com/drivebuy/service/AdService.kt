@@ -1,5 +1,8 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.AdNotFoundException
+import com.drivebuy.exception.UnauthorizedException
+import com.drivebuy.exception.UserNotFoundException
 import com.drivebuy.persistance.dto.CarAdDto
 import com.drivebuy.persistance.dto.CarAdFilters
 import com.drivebuy.repository.AdRepository
@@ -28,7 +31,7 @@ class AdService(
         val user = try {
             userRepository.findByFirebaseId(request.userId)
         } catch (exception: Exception) {
-            throw RuntimeException("User not found. Register or login to create an ad.")
+            throw UserNotFoundException("User not found. Register or login to create an ad.")
         }
 
         val imageUrls = request.images.map { storageService.uploadAdImage(it) }
@@ -66,12 +69,12 @@ class AdService(
         val user = try {
             userRepository.findByFirebaseId(request.userId)
         } catch (exception: Exception) {
-            throw RuntimeException("User not found. Register or login to create an ad.")
+            throw UserNotFoundException("User not found. Register or login to update an ad.")
         }
-        val ad = adRepository.findById(id).orElseThrow{ RuntimeException("Ad not found") }
+        val ad = adRepository.findById(id).orElseThrow { AdNotFoundException("Ad not found with id: $id") }
 
         if (ad.userId != user.firebaseId) {
-            throw RuntimeException("You are not authorized to modify this ad")
+            throw UnauthorizedException("You are not authorized to modify this ad")
         }
 
         request.make?.let { ad.make = it }
@@ -119,13 +122,13 @@ class AdService(
         val user = try {
             userRepository.findByFirebaseId(userId)
         } catch (exception: Exception) {
-            throw RuntimeException("User not found. Register or login to create an ad.")
+            throw UserNotFoundException("User not found. Register or login to delete an ad.")
         }
 
-        val ad = adRepository.findById(id).orElseThrow{ RuntimeException("Ad not found") }
+        val ad = adRepository.findById(id).orElseThrow { AdNotFoundException("Ad not found with id: $id") }
 
         if (ad.userId != user.firebaseId) {
-            throw RuntimeException("You are not authorized to modify this ad")
+            throw UnauthorizedException("You are not authorized to delete this ad")
         }
 
         userRepository.deleteSavedAdLinksByAdId(id)

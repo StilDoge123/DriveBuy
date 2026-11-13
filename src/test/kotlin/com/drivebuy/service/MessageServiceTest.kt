@@ -1,5 +1,6 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.MessageNotFoundException
 import com.drivebuy.persistance.entity.MessageEntity
 import com.drivebuy.repository.ChatRepository
 import com.drivebuy.repository.MessageRepository
@@ -85,7 +86,7 @@ class MessageServiceTest {
 
         whenever(messageRepository.findById(messageId)).thenReturn(Optional.empty())
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<MessageNotFoundException> {
             messageService.markMessageAsRead(messageId)
         }
 

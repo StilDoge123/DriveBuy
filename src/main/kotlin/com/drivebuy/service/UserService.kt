@@ -1,7 +1,9 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.AdNotFoundException
 import com.drivebuy.exception.EmailAlreadyExistsException
 import com.drivebuy.exception.InvalidEmailException
+import com.drivebuy.exception.UserNotFoundException
 import com.drivebuy.exception.UserRegistrationException
 import com.drivebuy.exception.WeakPasswordException
 import com.drivebuy.persistance.dto.RegisterUserDTO
@@ -134,7 +136,7 @@ class UserService(
 
     fun updateUser(userId: String, updateUserRequest: UpdateUserRequest): UserEntity {
         val user = userRepository.findById(userId)
-            .orElseThrow { RuntimeException("User not found") }
+            .orElseThrow { UserNotFoundException("User not found with id: $userId") }
 
         updateUserRequest.name?.let { user.name = it }
         updateUserRequest.email?.let { user.email = it }
@@ -144,8 +146,8 @@ class UserService(
     }
 
     fun saveAd(userId: String, adId: Long): List<CarAdEntity> {
-        if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
-        if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
+        if (!userRepository.existsById(userId)) throw UserNotFoundException("User not found with id: $userId")
+        if (!adRepository.existsById(adId)) throw AdNotFoundException("Ad not found with id: $adId")
 
         val user = userRepository.findByFirebaseId(userId)
         val ad = adRepository.findEntityById(adId)
@@ -158,8 +160,8 @@ class UserService(
     }
 
     fun removeSavedAd(userId: String, adId: Long): List<CarAdEntity> {
-        if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
-        if (!adRepository.existsById(adId)) throw RuntimeException("Ad not found")
+        if (!userRepository.existsById(userId)) throw UserNotFoundException("User not found with id: $userId")
+        if (!adRepository.existsById(adId)) throw AdNotFoundException("Ad not found with id: $adId")
 
         val user = userRepository.findByFirebaseId(userId)
         val ad = adRepository.findEntityById(adId)
@@ -172,7 +174,7 @@ class UserService(
     }
 
     fun getSavedAds(userId: String): List<CarAdEntity> {
-        if (!userRepository.existsById(userId)) throw RuntimeException("User not found")
+        if (!userRepository.existsById(userId)) throw UserNotFoundException("User not found with id: $userId")
         val user = userRepository.findByFirebaseId(userId)
         return user.savedAds
     }

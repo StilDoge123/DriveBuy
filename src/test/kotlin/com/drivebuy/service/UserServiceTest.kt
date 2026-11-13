@@ -1,5 +1,7 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.AdNotFoundException
+import com.drivebuy.exception.UserNotFoundException
 import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.entity.UserEntity
 import com.drivebuy.persistance.request.UpdateUserRequest
@@ -81,11 +83,11 @@ class UserServiceTest {
 
         whenever(userRepository.findById(userId)).thenReturn(Optional.empty())
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UserNotFoundException> {
             userService.updateUser(userId, updateRequest)
         }
 
-        assertEquals("User not found", exception.message)
+        assertEquals("User not found with id: $userId", exception.message)
     }
 
     @Test
@@ -139,11 +141,11 @@ class UserServiceTest {
 
         whenever(userRepository.existsById(userId)).thenReturn(false)
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UserNotFoundException> {
             userService.saveAd(userId, adId)
         }
 
-        assertEquals("User not found", exception.message)
+        assertEquals("User not found with id: $userId", exception.message)
     }
 
     @Test
@@ -154,11 +156,11 @@ class UserServiceTest {
         whenever(userRepository.existsById(userId)).thenReturn(true)
         whenever(adRepository.existsById(adId)).thenReturn(false)
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<AdNotFoundException> {
             userService.saveAd(userId, adId)
         }
 
-        assertEquals("Ad not found", exception.message)
+        assertEquals("Ad not found with id: $adId", exception.message)
     }
 
     @Test
@@ -263,10 +265,10 @@ class UserServiceTest {
 
         whenever(userRepository.existsById(userId)).thenReturn(false)
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UserNotFoundException> {
             userService.getSavedAds(userId)
         }
 
-        assertEquals("User not found", exception.message)
+        assertEquals("User not found with id: $userId", exception.message)
     }
 }

@@ -1,5 +1,10 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.AdNotFoundException
+import com.drivebuy.exception.BadRequestException
+import com.drivebuy.exception.ChatNotFoundException
+import com.drivebuy.exception.UnauthorizedException
+import com.drivebuy.exception.UserNotFoundException
 import com.drivebuy.persistance.entity.ChatEntity
 import com.drivebuy.persistance.entity.MessageEntity
 import com.drivebuy.repository.ChatRepository
@@ -20,23 +25,23 @@ class ChatService(
 
     fun createOrGetChat(adId: Long, buyerId: String, sellerId: String): ChatEntity {
         val ad = adRepository.findById(adId).orElseThrow { 
-            RuntimeException("Ad not found with id: $adId") 
+            AdNotFoundException("Ad not found with id: $adId") 
         }
         
         if (ad.userId != sellerId) {
-            throw RuntimeException("User $sellerId is not the owner of ad $adId")
+            throw UnauthorizedException("User $sellerId is not the owner of ad $adId")
         }
         
         if (buyerId == sellerId) {
-            throw RuntimeException("Cannot create chat with yourself")
+            throw BadRequestException("Cannot create chat with yourself")
         }
         
         if (!userRepository.existsById(buyerId)) {
-            throw RuntimeException("Buyer not found with id: $buyerId")
+            throw UserNotFoundException("Buyer not found with id: $buyerId")
         }
         
         if (!userRepository.existsById(sellerId)) {
-            throw RuntimeException("Seller not found with id: $sellerId")
+            throw UserNotFoundException("Seller not found with id: $sellerId")
         }
         
         val existingChat = chatRepository.findByAdIdAndBuyerIdAndSellerId(adId, buyerId, sellerId)
@@ -59,11 +64,11 @@ class ChatService(
 
     fun getChatById(chatId: Long, userId: String): ChatEntity {
         val chat = chatRepository.findById(chatId).orElseThrow { 
-            RuntimeException("Chat not found with id: $chatId") 
+            ChatNotFoundException("Chat not found with id: $chatId") 
         }
         
         if (chat.buyerId != userId && chat.sellerId != userId) {
-            throw RuntimeException("User $userId is not authorized to access chat $chatId")
+            throw UnauthorizedException("User $userId is not authorized to access chat $chatId")
         }
         
         return chat

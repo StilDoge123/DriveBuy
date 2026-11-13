@@ -1,5 +1,7 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.UnauthorizedException
+import com.drivebuy.exception.UserNotFoundException
 import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.entity.UserEntity
 import com.drivebuy.persistance.request.CreateAdRequest
@@ -124,7 +126,7 @@ class AdServiceTest {
 
         whenever(userRepository.findByFirebaseId(userId)).thenThrow(RuntimeException("User not found"))
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UserNotFoundException> {
             adService.createAd(request)
         }
 
@@ -226,7 +228,7 @@ class AdServiceTest {
         whenever(userRepository.findByFirebaseId(userId)).thenReturn(user)
         whenever(adRepository.findById(adId)).thenReturn(Optional.of(existingAd))
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UnauthorizedException> {
             adService.updateAd(adId, updateRequest)
         }
 

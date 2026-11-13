@@ -1,5 +1,6 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.MessageNotFoundException
 import com.drivebuy.persistance.entity.MessageEntity
 import com.drivebuy.repository.MessageRepository
 import com.drivebuy.repository.ChatRepository
@@ -23,7 +24,7 @@ class MessageService(
 
     fun markMessageAsRead(messageId: Long) {
         val message = messageRepository.findById(messageId).orElseThrow { 
-            RuntimeException("Message not found with id: $messageId") 
+            MessageNotFoundException("Message not found with id: $messageId") 
         }
         message.isRead = true
         messageRepository.save(message)

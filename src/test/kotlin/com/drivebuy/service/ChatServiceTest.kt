@@ -1,5 +1,8 @@
 package com.drivebuy.service
 
+import com.drivebuy.exception.AdNotFoundException
+import com.drivebuy.exception.BadRequestException
+import com.drivebuy.exception.UnauthorizedException
 import com.drivebuy.persistance.entity.CarAdEntity
 import com.drivebuy.persistance.entity.ChatEntity
 import com.drivebuy.persistance.entity.MessageEntity
@@ -138,7 +141,7 @@ class ChatServiceTest {
 
         whenever(adRepository.findById(adId)).thenReturn(Optional.empty())
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<AdNotFoundException> {
             chatService.createOrGetChat(adId, buyerId, sellerId)
         }
 
@@ -178,7 +181,7 @@ class ChatServiceTest {
 
         whenever(adRepository.findById(adId)).thenReturn(Optional.of(ad))
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<BadRequestException> {
             chatService.createOrGetChat(adId, userId, userId)
         }
 
@@ -222,7 +225,7 @@ class ChatServiceTest {
 
         whenever(chatRepository.findById(chatId)).thenReturn(Optional.of(chat))
 
-        val exception = assertThrows<RuntimeException> {
+        val exception = assertThrows<UnauthorizedException> {
             chatService.getChatById(chatId, userId)
         }
 
